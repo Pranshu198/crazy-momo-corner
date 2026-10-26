@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Crazy Momo Corner — Street Ka Asli Swad | Uttam Nagar</title>
+<meta name="description" content="Crazy Momo Corner, Uttam Nagar — Pure Veg Steam, Fried, Kurkure, Gravy Momos, Twisters, Spring Rolls, Noodles & more. Free home delivery within 1 KM on orders above ₹200.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@400;600;700;900&family=Caveat:wght@700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#000;--bg2:#0a0a0a;--card:#111;--txt:#fff;--mut:#a3a3a3;--yel:#ffcf00;--red:#e8232a;--grn:#0f9d58;--line:#262626}
+[data-theme=light]{--bg:#fff8ec;--bg2:#fff;--card:#fff;--txt:#161616;--mut:#5c5c5c;--line:#ead9b0}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--txt);font-family:Poppins,sans-serif;overflow-x:hidden;transition:background .4s,color .4s}
+::selection{background:var(--yel);color:#000}
+.grad{background:linear-gradient(92deg,var(--yel),#ff7a00,var(--red));-webkit-background-clip:text;background-clip:text;color:transparent}
+.bebas{font-family:'Bebas Neue',sans-serif;letter-spacing:.04em}
+/* NAV */
+nav{position:fixed;inset:0 0 auto 0;z-index:50;display:flex;justify-content:space-between;align-items:center;padding:14px 5vw;background:color-mix(in srgb,var(--bg) 78%,transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.logo{font-size:26px}.logo b{color:var(--yel)}
+nav a{color:var(--txt);text-decoration:none;font-size:14px;font-weight:600;margin-left:18px}
+.tgl{cursor:pointer;border:1px solid var(--line);background:var(--card);color:var(--txt);border-radius:99px;padding:8px 14px;font-weight:700}
+.call{background:var(--red);color:#fff!important;padding:9px 16px;border-radius:99px}
+/* HERO */
+header{min-height:100svh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:120px 5vw 60px;position:relative;background:radial-gradient(60% 50% at 50% 0%,rgba(255,207,0,.16),transparent 70%),radial-gradient(40% 35% at 85% 80%,rgba(232,35,42,.18),transparent 70%),var(--bg)}
+.badge{border:1px solid var(--grn);color:#4ade80;border-radius:99px;padding:6px 16px;font-size:12px;font-weight:700;letter-spacing:.15em;animation:float 3s ease-in-out infinite}
+h1{font-size:clamp(58px,13vw,150px);line-height:.92;margin:18px 0 4px}
+.tag{font-family:Caveat,cursive;font-size:clamp(24px,4vw,40px);color:var(--yel)}
+.type{font-size:clamp(17px,2.6vw,26px);font-weight:700;min-height:1.5em}.type::after{content:'▌';color:var(--red);animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}@keyframes float{50%{transform:translateY(-7px)}}
+.hero-plate{width:min(430px,82vw);aspect-ratio:1;border-radius:50%;margin-top:28px;perspective:900px;cursor:grab}
+.hero-plate img{width:100%;height:100%;object-fit:cover;border-radius:50%;border:6px solid var(--yel);box-shadow:0 30px 80px rgba(255,170,0,.35);transition:transform .15s}
+.hint{font-size:12px;color:var(--mut);margin-top:10px;letter-spacing:.12em}
+.cta{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:26px}
+.btn{padding:14px 28px;border-radius:99px;font-weight:800;text-decoration:none;font-size:15px;transition:.25s}
+.btn:hover{transform:translateY(-3px) scale(1.03)}
+.b1{background:linear-gradient(92deg,var(--yel),#ff7a00);color:#000}.b2{background:#25D366;color:#04240f}.b3{border:2px solid var(--txt);color:var(--txt)}
+.marquee{overflow:hidden;white-space:nowrap;border-block:2px solid var(--yel);padding:10px 0;font-family:'Bebas Neue';font-size:24px;background:var(--bg2)}
+.marquee div{display:inline-block;animation:mq 18s linear infinite}@keyframes mq{to{transform:translateX(-50%)}}
+/* SECTIONS */
+section{padding:80px 5vw;max-width:1280px;margin:auto}
+h2{font-size:clamp(38px,6vw,64px);text-align:center}
+.sub{text-align:center;color:var(--mut);margin:6px 0 40px}
+.rev{opacity:0;transform:translateY(46px);transition:all .8s cubic-bezier(.2,.8,.2,1)}.rev.on{opacity:1;transform:none}
+/* 3D CARDS */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(255px,1fr));gap:22px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:22px;overflow:hidden;transform-style:preserve-3d;transition:box-shadow .3s;will-change:transform}
+.card:hover{box-shadow:0 24px 60px rgba(255,170,0,.22)}
+.card .im{height:190px;overflow:hidden}.card .im img{width:100%;height:100%;object-fit:cover;transition:transform .6s}.card:hover .im img{transform:scale(1.12) rotate(2deg)}
+.card .bd{padding:16px}.card h3{font-size:19px}
+.pr{display:flex;gap:8px;margin:10px 0}.pr span{flex:1;text-align:center;border-radius:10px;padding:7px 4px;font-size:13px;font-weight:700}
+.hf{background:rgba(15,157,88,.18);border:1px solid var(--grn)}.fl{background:rgba(232,35,42,.15);border:1px solid var(--red)}
+.v360{width:100%;padding:11px;border:0;border-radius:12px;background:linear-gradient(92deg,var(--yel),#ff7a00);font-weight:800;cursor:pointer;font-family:Poppins}
+.add{width:100%;padding:10px;margin-top:8px;border-radius:12px;background:transparent;border:1.5px solid var(--yel);color:var(--yel);font-weight:800;cursor:pointer;font-family:Poppins}
+/* MENU TABLE */
+table{width:100%;border-collapse:collapse;background:var(--card);border-radius:18px;overflow:hidden}
+th,td{padding:11px 14px;border-bottom:1px solid var(--line);text-align:left;font-size:14px}th{background:var(--yel);color:#000;font-family:'Bebas Neue';font-size:18px;letter-spacing:.06em}
+.cat td{background:color-mix(in srgb,var(--red) 16%,var(--card));font-weight:800;color:var(--yel)}
+/* 360 MODAL */
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.92);display:none;place-items:center;z-index:99;padding:20px}.modal.open{display:grid}
+.stage{perspective:1100px;text-align:center}
+.stage img{width:min(74vw,420px);aspect-ratio:1;object-fit:cover;border-radius:50%;border:6px solid var(--yel);cursor:grab;box-shadow:0 40px 100px rgba(255,170,0,.4)}
+.spin{display:flex;gap:10px;justify-content:center;margin-top:18px;flex-wrap:wrap}
+.spin button,.x{padding:11px 20px;border-radius:99px;border:0;font-weight:800;cursor:pointer;font-family:Poppins}
+.x{position:absolute;top:18px;right:18px;background:var(--red);color:#fff}
+/* INFO / FOOTER */
+.info{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
+.ibox{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:24px;text-align:center}
+.ibox .ic{font-size:38px}
+footer{text-align:center;padding:50px 5vw;border-top:1px solid var(--line);background:var(--bg2)}
+.cartbar{position:fixed;bottom:16px;left:50%;transform:translateX(-50%) translateY(120px);background:#25D366;color:#03230e;font-weight:800;padding:13px 24px;border-radius:99px;z-index:60;cursor:pointer;transition:.4s;box-shadow:0 14px 40px rgba(37,211,102,.45);border:0;font-family:Poppins;font-size:15px}
+.cartbar.show{transform:translateX(-50%)}
+.steam{position:absolute;font-size:26px;animation:rise 3.4s linear infinite;opacity:0}@keyframes rise{15%{opacity:.9}to{transform:translateY(-46vh) rotate(30deg);opacity:0}}
+@media(max-width:640px){nav a.hide{display:none}}
+</style></head>
+<body>
+<nav><div class="logo bebas">CRAZY <b>M😋MO</b> CORNER</div>
+<div><a class="hide" href="#dishes">Dishes</a><a class="hide" href="#menu">Full Menu</a><a class="hide" href="#visit">Visit</a>
+<button class="tgl" id="tgl">☀️ Light</button><a class="call" href="tel:+918826018524">📞 Order</a></div></nav>
+
+<header id="top">
+<span class="badge">● PURE VEG &nbsp;|&nbsp; FRESH • HOT • TASTY</span>
+<h1 class="bebas">CRAZY <span class="grad">MOMO</span> CORNER</h1>
+<div class="tag">Street Ka Asli Swad ❤️</div>
+<div class="type" id="type"></div>
+<div class="hero-plate" id="plate"><img src="img/steam.jpg" alt="Steam Momos" draggable="false"></div>
+<div class="hint">↔ DRAG PLATE — 360° VIEW ↕ SCROLL FOR MAGIC</div>
+<div class="cta"><a class="btn b1" href="#dishes">🍽️ Explore Dishes</a>
+<a class="btn b2" href="https://wa.me/918826018524?text=Hi%20Crazy%20Momo%20Corner!%20Mujhe%20order%20karna%20hai." target="_blank">WhatsApp Order</a>
+<a class="btn b3" href="https://www.instagram.com/crazymomocorner_uttamnagar" target="_blank">📸 Instagram</a></div>
+</header>
+<div class="marquee"><div>STEAM MOMOS ✦ FRIED MOMOS ✦ KURKURE MOMOS ✦ GRAVY MOMOS ✦ POTATO TWISTER ✦ SPRING ROLLS ✦ HAKKA NOODLES ✦ CHILLI POTATO ✦ FREE HOME DELIVERY ✦ STEAM MOMOS ✦ FRIED MOMOS ✦ KURKURE MOMOS ✦ GRAVY MOMOS ✦ POTATO TWISTER ✦ SPRING ROLLS ✦ HAKKA NOODLES ✦ CHILLI POTATO ✦ FREE HOME DELIVERY ✦&nbsp;</div></div>
+
+<section id="dishes"><h2 class="bebas rev">Har Dish, <span class="grad">360° Andaaz</span> Mein</h2>
+<p class="sub rev">Card par hover/touch karo — 3D tilt. <b>360° View</b> dabao, plate ko drag karke ghumao!</p>
+<div class="grid" id="grid"></div></section>
+
+<section id="menu"><h2 class="bebas rev">Full <span class="grad">Menu</span></h2><p class="sub rev">Half Plate = 5 Pcs &nbsp;•&nbsp; Full Plate = 10 Pcs</p>
+<div class="rev" style="overflow-x:auto"><table id="mtable"><tr><th>Item</th><th>Half</th><th>Full</th></tr></table></div></section>
+
+<section id="visit"><h2 class="bebas rev">Order &amp; <span class="grad">Visit</span></h2><p class="sub rev">Uttam Nagar, Delhi</p>
+<div class="info">
+<div class="ibox rev"><div class="ic">🛵</div><h3>FREE Home Delivery</h3><p>1 KM ke andar FREE — ₹200 se upar ke order par</p></div>
+<div class="ibox rev"><div class="ic">📞</div><h3>Call / WhatsApp</h3><p><a href="tel:+918826018524" style="color:var(--yel);font-weight:800;font-size:19px;text-decoration:none">+91 88260 18524</a></p></div>
+<div class="ibox rev"><div class="ic">❄️</div><h3>Winter Special</h3><p>Tomato Soup &amp; Mix Veg Soup — sirf ₹50 (1 Glass)</p></div>
+<div class="ibox rev"><div class="ic">🥤</div><h3>Cold Drinks</h3><p>Coke, Sprite, Fanta, Pepsi — MRP par</p></div>
+</div></section>
+
+<footer><div class="bebas" style="font-size:34px">CRAZY <span class="grad">MOMO</span> CORNER</div>
+<p style="color:var(--mut);margin:8px 0">Street Ka Asli Swad ❤️ • Pure Veg • Uttam Nagar, Delhi</p>
+<p><a href="https://www.instagram.com/crazymomocorner_uttamnagar" target="_blank" style="color:var(--yel);font-weight:700;text-decoration:none">📸 @crazymomocorner_uttamnagar</a> &nbsp;•&nbsp; <a href="tel:+918826018524" style="color:var(--yel);font-weight:700;text-decoration:none">📞 +91 88260 18524</a></p>
+<p style="color:var(--mut);font-size:12px;margin-top:14px">© 2026 Crazy Momo Corner. All prices from official menu.</p></footer>
+
+<button class="cartbar" id="cartbar"></button>
+<div class="modal" id="modal"><button class="x" id="x">✕ Close</button>
+<div class="stage"><h3 class="bebas" id="mname" style="font-size:40px;margin-bottom:14px"></h3>
+<img id="mimg" draggable="false"><div class="hint">↔ DRAG KARKE 360° GHUMAO</div>
+<div class="spin"><button id="auto" style="background:var(--yel)">🔄 Auto Spin</button>
+<button id="morder" style="background:#25D366">WhatsApp par Order Karo</button></div></div></div>
+
+<script>
+const DISHES=[
+["Steam Momos","steam",[["Veg",50,90],["Soya",60,110],["Paneer",70,120],["Cheese & Corn",80,150]]],
+["Fried Momos","fried",[["Veg",60,100],["Soya",70,120],["Paneer",80,130],["Cheese & Corn",90,160]]],
+["Pan Fried Momos","panfried",[["Veg",70,110],["Soya",80,130],["Paneer",80,140]]],
+["Kurkure Momos","kurkure",[["Veg",70,130],["Soya",80,140],["Paneer",90,150],["Cheese & Corn",100,170]]],
+["Gravy Momos","gravy",[["Veg",70,130],["Soya",80,140],["Paneer",90,150],["Cheese & Corn",100,170]]],
+["Potato Twister","twister",[["1 Pc",40,null],["2 Pcs",70,null]]],
+["Kurkure Potato Twister","ktwister",[["1 Pc",50,null],["2 Pcs",90,null]]],
+["Noodles Spring Roll","springroll",[["1 Pc",40,null],["2 Pcs",70,null]]],
+["Kurkure Spring Roll","kspringroll",[["1 Pc",50,null],["2 Pcs",90,null]]],
+["Fries","fries",[["Salted Fries",40,70],["Peri Peri Fries",50,80]]],
+["Noodles (Delivery Only)","noodles",[["Veg Chowmin",60,100],["Veg Garlic Chowmin",80,130],["Singapuri Noodles",90,140],["Hakka Noodles",90,140]]],
+["Chilli Potato","chilli",[["Chilli Potato",100,150],["Honey Chilli Potato",110,160]]],
+["Veg Manchurian Gravy","manchurian",[["Half / Full",110,160]]],
+["Winter Special Soup","soup",[["Tomato Soup (1 Glass)",50,null],["Mix Veg Soup (1 Glass)",50,null]]]];
+let cart=[],cur="";
+const grid=document.getElementById('grid'),mt=document.getElementById('mtable');
+DISHES.forEach((d,i)=>{
+ const [name,img,vars]=d;
+ const c=document.createElement('div');c.className='card rev';
+ c.innerHTML=`<div class="im"><img src="img/${img}.jpg" alt="${name}" loading="lazy"></div><div class="bd"><h3>${name}</h3>
+ ${vars.map(v=>`<div class="pr"><span class="hf">${v[0]} — ₹${v[1]}</span>${v[2]?`<span class="fl">Full — ₹${v[2]}</span>`:''}</div>`).join('')}
+ <button class="v360">🔄 360° VIEW</button><button class="add">＋ Add — ${vars[0][0]} ₹${vars[0][1]}</button></div>`;
+ c.querySelector('.v360').onclick=()=>open360(name,img);
+ c.querySelector('.add').onclick=()=>{cart.push(`${name} (${vars[0][0]}) ₹${vars[0][1]}`);upd()};
+ grid.appendChild(c);
+ const r=document.createElement('tr');r.className='cat';r.innerHTML=`<td colspan="3">${name.toUpperCase()}</td>`;mt.appendChild(r);
+ vars.forEach(v=>{const t=document.createElement('tr');t.innerHTML=`<td>${v[0]}</td><td>₹${v[1]}</td><td>${v[2]?'₹'+v[2]:'—'}</td>`;mt.appendChild(t)});
+ /* 3D tilt */
+ c.addEventListener('pointermove',e=>{const b=c.getBoundingClientRect(),x=(e.clientX-b.left)/b.width-.5,y=(e.clientY-b.top)/b.height-.5;c.style.transform=`perspective(800px) rotateY(${x*16}deg) rotateX(${-y*16}deg) translateY(-4px)`});
+ c.addEventListener('pointerleave',()=>c.style.transform='');
+});
+/* reveal on scroll */
+const io=new IntersectionObserver(es=>es.forEach(e=>e.isIntersecting&&e.target.classList.add('on')),{threshold:.12});
+document.querySelectorAll('.rev').forEach(el=>io.observe(el));
+/* typing effect */
+const words=["Steam Momos sirf ₹50 se shuru! 🔥","Kurkure Momos — Crunch ka King 👑","Gravy Momos — Street Ka Asli Swad ❤️","FREE Delivery 1 KM me, ₹200+ order par 🛵","Potato Twister — Bachon ka Favourite 🌀"];
+let wi=0,ci=0,del=false;const tp=document.getElementById('type');
+(function tick(){const w=words[wi];tp.textContent=w.slice(0,ci);if(!del){if(ci<w.length){ci++;setTimeout(tick,55)}else{del=true;setTimeout(tick,1700)}}else{if(ci>0){ci--;setTimeout(tick,26)}else{del=false;wi=(wi+1)%words.length;setTimeout(tick,350)}}})();
+/* theme toggle */
+const tgl=document.getElementById('tgl'),root=document.documentElement;
+if(localStorage.cmc==='light'){root.dataset.theme='light';tgl.textContent='🌙 Dark'}
+tgl.onclick=()=>{const l=root.dataset.theme!=='light';root.dataset.theme=l?'light':'dark';tgl.textContent=l?'🌙 Dark':'☀️ Light';localStorage.cmc=l?'light':'dark'};
+/* drag-rotate helper (fake-360: rotateY + skew illusion on circular plate photo) */
+function dragRotate(el){let down=false,sx=0,rot=0,spin=null;
+ const move=x=>{if(!down)return;rot+=(x-sx)*.9;sx=x;el.style.transform=`rotateY(${rot}deg) rotateZ(${rot*.06}deg)`};
+ el.addEventListener('pointerdown',e=>{down=true;sx=e.clientX;el.setPointerCapture(e.pointerId);stop()});
+ el.addEventListener('pointermove',e=>move(e.clientX));
+ el.addEventListener('pointerup',()=>down=false);el.addEventListener('pointercancel',()=>down=false);
+ function start(){if(spin)return;spin=setInterval(()=>{rot+=2.2;el.style.transform=`rotateY(${rot}deg) rotateZ(${rot*.06}deg)`},16)}
+ function stop(){clearInterval(spin);spin=null}
+ return{start,stop,toggle:()=>spin?stop():start}}
+const heroSpin=dragRotate(document.querySelector('#plate img'));
+/* 360 modal */
+const modal=document.getElementById('modal'),mimg=document.getElementById('mimg');let mSpin=null;
+function open360(name,img){cur=name;document.getElementById('mname').textContent=name;mimg.src=`img/${img}.jpg`;modal.classList.add('open');if(mSpin)mSpin.stop();mSpin=dragRotate(mimg);mSpin.start()}
+document.getElementById('x').onclick=()=>{modal.classList.remove('open');mSpin&&mSpin.stop()};
+modal.addEventListener('click',e=>{if(e.target===modal){modal.classList.remove('open');mSpin&&mSpin.stop()}});
+document.getElementById('auto').onclick=()=>mSpin&&mSpin.toggle();
+document.getElementById('morder').onclick=()=>window.open('https://wa.me/918826018524?text='+encodeURIComponent('Hi Crazy Momo Corner! Mujhe '+cur+' order karna hai.'),'_blank');
+/* cart -> WhatsApp */
+const bar=document.getElementById('cartbar');
+function upd(){if(!cart.length){bar.classList.remove('show');return}bar.textContent=`🛒 ${cart.length} item(s) — WhatsApp par Order Bhejo`;bar.classList.add('show')}
+bar.onclick=()=>window.open('https://wa.me/918826018524?text='+encodeURIComponent('Hi Crazy Momo Corner! Mera order:\n'+cart.map((c,i)=>`${i+1}. ${c}`).join('\n')),'_blank');
+/* floating steam emojis */
+setInterval(()=>{if(document.hidden)return;const s=document.createElement('span');s.className='steam';s.textContent=['💨','🔥','🌶️'][Math.floor(Math.random()*3)];s.style.left=(8+Math.random()*84)+'vw';s.style.bottom='0';document.body.appendChild(s);setTimeout(()=>s.remove(),3500)},2600);
+</script></body></html>
