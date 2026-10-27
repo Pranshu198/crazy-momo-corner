@@ -7,6 +7,21 @@ import TypingText from './TypingText'
 
 const DishScene = lazy(() => import('./DishViewer360').then(m => ({ default: m.DishScene })))
 
+const ROTS = [-7, 5, -4, 6, -5, 4, -6, 5, -3, 6]
+/** Funky word — har letter alag rotation/baseline, springy stagger entry */
+function FunkyWord({ word, className = '', delay = 0 }: { word: string; className?: string; delay?: number }) {
+  return (
+    <span className={`inline-block ${className}`} aria-hidden>
+      {word.split('').map((c, i) => (
+        <motion.span key={i} initial={{ opacity: 0, y: 60, rotate: ROTS[i % ROTS.length] * 3, scale: 0.6 }}
+          animate={{ opacity: 1, y: i % 2 ? 5 : -3, rotate: ROTS[i % ROTS.length], scale: 1 }}
+          transition={{ delay: delay + i * 0.055, type: 'spring', stiffness: 320, damping: 13 }}
+          className="inline-block will-change-transform">{c === ' ' ? '\u00A0' : c}</motion.span>
+      ))}
+    </span>
+  )
+}
+
 export default function Hero() {
   const ref = useRef<HTMLElement>(null)
   const mx = useMotionValue(0); const my = useMotionValue(0)
@@ -29,14 +44,19 @@ export default function Hero() {
             <span className="sticker sticker-gold rotate-1 flex items-center gap-1.5 text-xs tracking-wider px-3.5 py-1.5"><MapPin size={13} className="text-[#FF3B30]" /> Uttam Nagar</span>
             <span className="sticker -rotate-1 flex items-center gap-1.5 text-xs tracking-wider px-3.5 py-1.5"><Clock size={13} className="text-[#FF8A00]" /> Till 11 PM</span>
           </motion.div>
-          <h1 className="font-display uppercase leading-[0.92] mt-5 text-[clamp(3.2rem,11vw,7.5rem)]">
-            {'CRAZY MOMO'.split('').map((c, i) => (
-              <motion.span key={i} initial={{ opacity: 0, y: 40, rotateX: 70 }} animate={{ opacity: 1, y: 0, rotateX: 0 }} transition={{ delay: 0.25 + i * 0.035, duration: 0.5 }} className="inline-block">{c === ' ' ? '\u00A0' : c}</motion.span>
-            ))}
-            <span className="block grad-text">CORNER</span>
+          <h1 aria-label="Crazy Momo Corner" className="font-display uppercase leading-[0.95] mt-6 text-[clamp(3rem,11.5vw,7.2rem)]">
+            <span className="block">
+              <FunkyWord word="CRAZY" delay={0.2} />{' '}
+              <span className="font-accent normal-case grad-text inline-block -rotate-3 text-[0.92em] translate-y-1">wale</span>
+            </span>
+            <span className="block outline-word -rotate-1 origin-left scale-[1.02]"><FunkyWord word="MOMO" delay={0.5} /></span>
+            <motion.span initial={{ opacity: 0, scale: 0.5, rotate: -10 }} animate={{ opacity: 1, scale: 1, rotate: 1.5 }} transition={{ delay: 0.85, type: 'spring', stiffness: 260, damping: 12 }}
+              className="inline-block grad-bg text-white rounded-[22px] px-4 sm:px-6 pb-2 mt-2 shadow-hard-ink" aria-hidden>CORNER</motion.span>
           </h1>
-          <div className="font-display uppercase text-[clamp(1.3rem,4.5vw,2.2rem)] mt-4 h-[1.3em]"><TypingText /></div>
-          <p className="font-accent text-2xl sm:text-3xl text-[#FF8A00] mt-2">{SITE.tagline}</p>
+          <div className="font-display uppercase text-[clamp(1.3rem,4.5vw,2.2rem)] mt-5 h-[1.3em]"><TypingText /></div>
+          <motion.p initial={{ opacity: 0, scale: 0.6, rotate: 4 }} animate={{ opacity: 1, scale: 1, rotate: -2.5 }} transition={{ delay: 1.15, type: 'spring', stiffness: 300, damping: 13 }}
+            className="sticker sticker-gold inline-block text-sm sm:text-base px-4 py-2 mt-3">Momos itne crazy, diet bhi confuse!</motion.p>
+          <p className="font-accent text-2xl sm:text-3xl text-[#FF8A00] mt-4">{SITE.tagline}</p>
           <p className="mut mt-3 max-w-md">{SITE.freeDelivery}. Steam se kurkure tak — har plate fresh, garam aur loaded.</p>
           <div className="flex flex-wrap gap-3 mt-7">
             <button data-magnetic onClick={() => document.querySelector('#builder')?.scrollIntoView({ behavior: 'smooth' })} className="grad-bg text-white font-bold rounded-full px-7 py-3.5 shadow-hard active:scale-95 transition-transform">Build Your Plate</button>

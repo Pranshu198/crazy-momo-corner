@@ -17,7 +17,7 @@ function OptionCard({ opt, selected, onClick }: { opt: BOption; selected: boolea
     <button onClick={onClick} aria-pressed={selected}
       className={`card-shine relative text-left rounded-[22px] overflow-hidden border transition-all duration-300 active:scale-[0.98] ${selected ? 'border-transparent ring-2 ring-[#FF8A00] shadow-[0_18px_50px_-12px_rgba(255,90,0,.45)]' : 'line surface hover:-translate-y-1'}`}>
       <div className="h-24 sm:h-28 img-frame overflow-hidden">
-        <img src={`${BASE}${opt.img}`} alt={opt.label} loading="lazy" className="w-full h-full object-cover" />
+        <img decoding="async" src={`${BASE}${opt.img}`} alt={opt.label} loading="lazy" className="w-full h-full object-cover" />
         {selected && <span className="absolute top-2.5 right-2.5 w-6 h-6 rounded-full grad-bg text-white grid place-items-center shadow-lg"><Check size={14} strokeWidth={3.5} /></span>}
       </div>
       <div className="p-3.5">
@@ -89,7 +89,7 @@ export default function PlateBuilder() {
   const reset = () => { setSel(INIT); topRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }) }
 
   return (
-    <section id="builder" className="relative py-20 sm:py-24 overflow-hidden">
+    <section id="builder" className="relative py-14 sm:py-24 overflow-hidden">
       <div className="absolute -top-24 right-0 w-[46vw] h-[46vw] max-w-[560px] max-h-[560px] rounded-full opacity-[0.13] blur-3xl grad-bg glow-drift pointer-events-none" aria-hidden />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 relative" ref={topRef}>
         <div className="text-center" data-reveal>
@@ -114,7 +114,7 @@ export default function PlateBuilder() {
                 <button onClick={() => set({ ...INIT, cat: c.id, qty: sel.qty })} aria-pressed={sel.cat === c.id}
                   className={`card-shine relative w-full text-left rounded-[24px] overflow-hidden border transition-all duration-300 active:scale-[0.98] ${sel.cat === c.id ? 'border-transparent ring-2 ring-[#FF8A00] shadow-[0_22px_60px_-14px_rgba(255,90,0,.5)]' : 'line surface'}`}>
                   <div className="h-28 sm:h-36 img-frame overflow-hidden">
-                    <img src={`${BASE}${c.img}`} alt={c.label} loading="lazy" className="w-full h-full object-cover" />
+                    <img decoding="async" src={`${BASE}${c.img}`} alt={c.label} loading="lazy" className="w-full h-full object-cover" />
                     <span className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent" aria-hidden />
                     <span className="absolute bottom-3 left-4 right-4 text-white">
                       <span className="block font-display uppercase text-lg sm:text-2xl leading-none">{c.label}</span>
@@ -169,7 +169,7 @@ export default function PlateBuilder() {
               className="mt-12 surface border line rounded-[28px] overflow-hidden shadow-2xl">
               <div className="grid md:grid-cols-[220px_1fr]">
                 <div className="h-44 md:h-full img-frame relative overflow-hidden">
-                  <img src={`${BASE}${built.img}`} alt={built.name} className="absolute inset-0 w-full h-full object-cover" />
+                  <img decoding="async" src={`${BASE}${built.img}`} alt={built.name} className="absolute inset-0 w-full h-full object-cover" />
                   <span className="absolute inset-0 bg-gradient-to-r from-transparent to-black/25" aria-hidden />
                 </div>
                 <div className="p-5 sm:p-7">
@@ -189,9 +189,9 @@ export default function PlateBuilder() {
                   {sel.cat === 'twister' && sel.cheese && <p className="mut text-xs mt-3 flex items-center gap-1.5"><Droplets size={13} className="text-[#FF8A00]" /> Liquid cheese ka price shop par confirm karein — base price neeche hai.</p>}
                   <div className="flex flex-wrap items-center gap-4 mt-6">
                     <div className="flex items-center gap-3 rounded-full border line px-2 py-1.5">
-                      <button onClick={() => set({ qty: Math.max(1, sel.qty - 1) })} aria-label="Quantity kam karo" className="w-9 h-9 grid place-items-center rounded-full surface2 active:scale-90"><Minus size={16} /></button>
+                      <button onClick={() => set({ qty: Math.max(1, sel.qty - 1) })} aria-label="Quantity kam karo" className="w-11 h-11 grid place-items-center rounded-full surface2 active:scale-90"><Minus size={16} /></button>
                       <span className="font-display text-xl w-6 text-center" aria-live="polite">{sel.qty}</span>
-                      <button onClick={() => set({ qty: Math.min(20, sel.qty + 1) })} aria-label="Quantity badhao" className="w-9 h-9 grid place-items-center rounded-full surface2 active:scale-90"><Plus size={16} /></button>
+                      <button onClick={() => set({ qty: Math.min(20, sel.qty + 1) })} aria-label="Quantity badhao" className="w-11 h-11 grid place-items-center rounded-full surface2 active:scale-90"><Plus size={16} /></button>
                     </div>
                     <div className="leading-none">
                       <div className="text-[11px] font-heading font-bold tracking-[0.2em] mut">TOTAL</div>
@@ -208,6 +208,20 @@ export default function PlateBuilder() {
                   </div>
                 </div>
               </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* MOBILE sticky price bar — Add hamesha dikhega */}
+        <AnimatePresence>
+          {ready && built && (
+            <motion.div initial={{ y: 90 }} animate={{ y: 0 }} exit={{ y: 90 }} transition={{ type: 'spring', stiffness: 320, damping: 30 }}
+              className="md:hidden fixed bottom-0 inset-x-0 z-[72] surface border-t line px-4 pt-3 flex items-center gap-3 shadow-[0_-14px_34px_rgba(0,0,0,0.28)]" style={{ paddingBottom: 'max(0.8rem, env(safe-area-inset-bottom))' }}>
+              <div className="min-w-0 flex-1">
+                <div className="font-heading font-bold text-[13px] leading-tight truncate">{built.name}</div>
+                <div className="font-display grad-text text-xl leading-none mt-1">{built.unit === 'ADD_PRICE' ? 'Confirm @ Shop' : `₹${(built.unit as number) * sel.qty}`}</div>
+              </div>
+              <button onClick={() => { add(built.dish, sel.qty); setDrawerOpen(true) }} className="grad-bg text-white font-bold rounded-full px-6 min-h-[48px] flex items-center gap-2 active:scale-95 shrink-0 shadow-xl"><ShoppingBag size={17} /> Add</button>
             </motion.div>
           )}
         </AnimatePresence>

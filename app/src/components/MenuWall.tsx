@@ -11,9 +11,6 @@ const ACCENTS: Record<string, string> = {
   'Fried Momos': 'golden crunch',
   'Kurkure Momos': 'crunch ka king',
   'Gravy Momos': 'masala me dooba',
-  'Tandoori & Afghani': 'smoky aur royal',
-  'Special / Fusion': 'crazy twists',
-  'Platters': 'sab kuch, ek plate me',
   'Sides & Chinese': 'street style chinese',
   'Soups & Beverages': 'garam ghunt, thandi drink',
 }
@@ -30,11 +27,11 @@ function PriceBlock({ dish, big = false }: { dish: Dish; big?: boolean }) {
   if (dish.price === 'ADD_PRICE') return <span className="block text-xs font-heading font-bold mut leading-snug max-w-[8rem] sm:max-w-none sm:whitespace-nowrap">{ADD_PRICE_LABEL}</span>
   if (dish.fullPrice) return (
     <span className={`flex gap-3 font-display leading-none ${big ? 'text-2xl' : 'text-base sm:text-lg'}`}>
-      <span><span className="block text-[9px] font-heading font-bold tracking-widest mut mb-0.5">HALF</span>₹{dish.price}</span>
-      <span className="grad-text"><span className="block text-[9px] font-heading font-bold tracking-widest mut mb-0.5">FULL</span>₹{dish.fullPrice}</span>
+      <span><span className="block text-[10px] font-heading font-bold tracking-widest mut mb-0.5">HALF</span>₹{dish.price}</span>
+      <span className="grad-text"><span className="block text-[10px] font-heading font-bold tracking-widest mut mb-0.5">FULL</span>₹{dish.fullPrice}</span>
     </span>
   )
-  return <span className={`font-display leading-none ${big ? 'text-2xl' : 'text-base sm:text-lg'}`}>₹{dish.price}<span className="block text-[9px] font-heading font-bold tracking-widest mut mt-0.5">{dish.category === 'Soups & Beverages' ? '1 GLASS' : 'PER PC / SERVE'}</span></span>
+  return <span className={`font-display leading-none ${big ? 'text-2xl' : 'text-base sm:text-lg'}`}>₹{dish.price}<span className="block text-[10px] font-heading font-bold tracking-widest mut mt-0.5">{dish.category === 'Soups & Beverages' ? '1 GLASS' : 'PER PC / SERVE'}</span></span>
 }
 
 function DishRow({ dish, i, feature = false }: { dish: Dish; i: number; feature?: boolean }) {
@@ -43,12 +40,12 @@ function DishRow({ dish, i, feature = false }: { dish: Dish; i: number; feature?
     return (
       <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-30px' }} transition={{ duration: 0.55 }}
         className="jump-hover relative surface2 border line rounded-[24px] p-4 sm:p-5 my-4 flex gap-4 items-center overflow-hidden">
-        <img src={`${BASE}${dish.img}`} alt={`${dish.name} — Crazy Momo Corner`} width={1920} height={1280} loading="lazy" className="w-24 h-24 sm:w-36 sm:h-28 rounded-2xl object-cover img-frame shrink-0 -rotate-1" />
+        <img decoding="async" src={`${BASE}${dish.img}`} alt={`${dish.name} — Crazy Momo Corner`} width={1920} height={1280} loading="lazy" className="w-24 h-24 sm:w-36 sm:h-28 rounded-2xl object-cover img-frame shrink-0 -rotate-1" />
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-2 flex-wrap">
             <VegDot />
             <h4 className="font-display uppercase text-lg sm:text-[1.55rem] leading-[0.95]">{dish.name}</h4>
-            {dish.tags?.[0] && <span className="sticker sticker-dark text-[9px] tracking-widest px-2 py-0.5 uppercase -rotate-2">{dish.tags[0]}</span>}
+            {dish.tags?.[0] && <span className="sticker sticker-dark text-[10px] tracking-widest px-2 py-0.5 uppercase -rotate-2">{dish.tags[0]}</span>}
           </div>
           <p className="mut text-[13px] sm:text-sm leading-snug mt-1.5 max-w-lg">{dish.desc}</p>
           <div className="flex items-center gap-3 mt-3 flex-wrap">
@@ -67,15 +64,15 @@ function DishRow({ dish, i, feature = false }: { dish: Dish; i: number; feature?
         <VegDot />
         <div className="min-w-0">
           <span className="font-heading font-bold leading-snug">{dish.name}</span>
-          {dish.tags?.[0] && <span className="ml-2 align-middle grad-bg text-white text-[9px] font-heading font-bold tracking-widest px-2 py-0.5 rounded-full uppercase">{dish.tags[0]}</span>}
+          {dish.tags?.[0] && <span className="ml-2 align-middle grad-bg text-white text-[10px] font-heading font-bold tracking-widest px-2 py-0.5 rounded-full uppercase">{dish.tags[0]}</span>}
           <p className="mut text-[13px] leading-snug mt-0.5 max-w-md">{dish.desc}</p>
         </div>
         <SpiceMini level={dish.spice} />
         <span className="dot-leader mt-3 hidden sm:block" aria-hidden />
         <div className="text-right shrink-0 ml-auto sm:ml-0"><PriceBlock dish={dish} /></div>
         <div className="flex flex-col gap-1.5 shrink-0">
-          <button onClick={() => add(dish)} aria-label={`${dish.name} order list me add karo`} className="w-8 h-8 grid place-items-center rounded-full grad-bg text-white shadow active:scale-90 hover:scale-110 transition-transform"><Plus size={15} /></button>
-          {dish.signature && <button onClick={() => setViewerDish(dish)} aria-label={`${dish.name} 360 view kholo`} className="w-8 h-8 grid place-items-center rounded-full border line active:scale-90 hover:scale-110 transition-transform"><Rotate3d size={14} /></button>}
+          <button onClick={() => add(dish)} aria-label={`${dish.name} order list me add karo`} className="w-10 h-10 grid place-items-center rounded-full grad-bg text-white shadow active:scale-90 hover:scale-110 transition-transform"><Plus size={15} /></button>
+          {dish.signature && <button onClick={() => setViewerDish(dish)} aria-label={`${dish.name} 360 view kholo`} className="w-10 h-10 grid place-items-center rounded-full border line active:scale-90 hover:scale-110 transition-transform"><Rotate3d size={14} /></button>}
         </div>
       </div>
     </motion.div>
@@ -84,7 +81,7 @@ function DishRow({ dish, i, feature = false }: { dish: Dish; i: number; feature?
 
 export default function MenuWall() {
   return (
-    <section id="menu" className="relative py-20 sm:py-24 overflow-hidden">
+    <section id="menu" className="relative py-14 sm:py-24 overflow-hidden">
       <Marquee items="MOMOS • MOMOS • MOMOS • " outline speed={46} className="absolute top-8 inset-x-0 text-[clamp(3.2rem,10vw,7.5rem)] opacity-50 pointer-events-none select-none" />
       <Marquee items="CRAZY • CRAZY • CRAZY • " outline speed={60} className="absolute bottom-10 inset-x-0 text-[clamp(3.2rem,10vw,7.5rem)] opacity-40 pointer-events-none select-none" />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 relative">
@@ -111,7 +108,7 @@ export default function MenuWall() {
                 </div>
                 <Tilt max={6} className="mt-5 hidden sm:block">
                   <div className="rounded-[24px] overflow-hidden img-frame border line shadow-xl">
-                    <img src={`${BASE}${thumb}`} alt={`${cat} — Crazy Momo Corner`} width={1920} height={1280} loading="lazy" className="w-full h-44 object-cover" />
+                    <img decoding="async" src={`${BASE}${thumb}`} alt={`${cat} — Crazy Momo Corner`} width={1920} height={1280} loading="lazy" className="w-full h-44 object-cover" />
                   </div>
                 </Tilt>
                 <p className="mut text-xs font-heading font-bold tracking-[0.2em] mt-4">{dishes.length} ITEMS • CHAPTER {String(ci + 1).padStart(2, '0')}</p>

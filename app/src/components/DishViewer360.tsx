@@ -8,97 +8,28 @@ import type { Dish } from '../data/menu'
 import { ADD_PRICE_LABEL } from '../data/menu'
 import { SITE, waLink } from '../data/site'
 import { useApp } from '../context/AppContext'
+import { applyFoodTex, makeFoodTexture, type TexKind } from '../three/textures'
 
-/* ================= Procedural food textures (canvas noise / bump / char) ================= */
-type TexKind = 'steam' | 'kurkure' | 'afghani' | 'tandoori' | 'fried' | 'gravy' | 'cheese'
-interface FoodTex { map: THREE.CanvasTexture; bump: THREE.CanvasTexture; rough: number; bumpScale: number }
-const texCache = new Map<TexKind, FoodTex>()
-const BASE: Record<TexKind, string> = {
-  steam: '#efe6d0', kurkure: '#c05a1e', afghani: '#eed9ae', tandoori: '#a34a24', fried: '#d99a3d', gravy: '#8f3d16', cheese: '#e8a91c',
-}
-function makeFoodTexture(kind: TexKind): FoodTex {
-  const hit = texCache.get(kind); if (hit) return hit
-  const S = 1024
-  const c = document.createElement('canvas'); c.width = c.height = S
-  const x = c.getContext('2d')!
-  const b = document.createElement('canvas'); b.width = b.height = S
-  const bx = b.getContext('2d')!
-  x.fillStyle = BASE[kind]; x.fillRect(0, 0, S, S)
-  bx.fillStyle = '#808080'; bx.fillRect(0, 0, S, S)
-  const rnd = (a: number, b2: number) => a + Math.random() * (b2 - a)
-  const speckles = kind === 'kurkure' ? 15000 : kind === 'steam' ? 2600 : 7500
-  const contrast = kind === 'kurkure' ? 0.5 : kind === 'steam' ? 0.1 : 0.3
-  for (let i = 0; i < speckles; i++) {
-    const g = Math.random()
-    const col = g > 0.5 ? '255,240,210' : kind === 'kurkure' ? '70,30,5' : '90,50,20'
-    x.fillStyle = `rgba(${col},${rnd(0.04, contrast)})`
-    const r = rnd(0.8, kind === 'kurkure' ? 6.5 : 3.6)
-    x.beginPath(); x.arc(rnd(0, S), rnd(0, S), r, 0, 7); x.fill()
-    const gv = Math.floor(rnd(60, 200))
-    bx.fillStyle = `rgba(${gv},${gv},${gv},${rnd(0.15, 0.6)})`
-    bx.beginPath(); bx.arc(rnd(0, S), rnd(0, S), r * 1.15, 0, 7); bx.fill()
-  }
-  if (kind === 'tandoori' || kind === 'fried') { // charred dark patches
-    for (let i = 0; i < 30; i++) {
-      const px = rnd(0, S), py = rnd(0, S), pr = rnd(14, 52)
-      const gr = x.createRadialGradient(px, py, 2, px, py, pr)
-      gr.addColorStop(0, `rgba(28,12,4,${rnd(0.35, 0.65)})`); gr.addColorStop(1, 'rgba(28,12,4,0)')
-      x.fillStyle = gr; x.beginPath(); x.arc(px, py, pr, 0, 7); x.fill()
-    }
-  }
-  if (kind === 'afghani' || kind === 'gravy' || kind === 'cheese') { // creamy glossy swirls
-    x.lineWidth = rnd(8, 14); x.lineCap = 'round'
-    for (let i = 0; i < 16; i++) {
-      x.strokeStyle = kind === 'gravy' ? `rgba(255,120,40,${rnd(0.08, 0.2)})` : `rgba(255,250,235,${rnd(0.1, 0.26)})`
-      x.beginPath(); x.moveTo(rnd(0, S), rnd(0, S)); x.bezierCurveTo(rnd(0, S), rnd(0, S), rnd(0, S), rnd(0, S), rnd(0, S), rnd(0, S)); x.stroke()
-    }
-  }
-  if (kind === 'kurkure') { // crumb chunks — strong bump
-    for (let i = 0; i < 1200; i++) {
-      const px = rnd(0, S), py = rnd(0, S), pr = rnd(3, 11)
-      x.fillStyle = `rgba(${Math.random() > 0.5 ? '255,170,60' : '120,50,10'},${rnd(0.25, 0.6)})`
-      x.beginPath(); x.arc(px, py, pr, 0, 7); x.fill()
-      bx.fillStyle = `rgba(235,235,235,${rnd(0.3, 0.8)})`; bx.beginPath(); bx.arc(px, py, pr, 0, 7); bx.fill()
-    }
-  }
-  const map = new THREE.CanvasTexture(c); map.wrapS = map.wrapT = THREE.RepeatWrapping; map.repeat.set(1.6, 1.6); map.colorSpace = THREE.SRGBColorSpace; map.anisotropy = 8
-  const bump = new THREE.CanvasTexture(b); bump.wrapS = bump.wrapT = THREE.RepeatWrapping; bump.repeat.set(1.6, 1.6); bump.anisotropy = 8
-  const rough = kind === 'steam' ? 0.85 : kind === 'kurkure' ? 0.95 : kind === 'afghani' || kind === 'cheese' ? 0.32 : kind === 'gravy' ? 0.28 : 0.6
-  const out: FoodTex = { map, bump, rough, bumpScale: kind === 'kurkure' ? 0.55 : kind === 'steam' ? 0.06 : 0.22 }
-  texCache.set(kind, out); return out
-}
-function applyFoodTex(root: THREE.Object3D, kind: TexKind) {
-  const tex = makeFoodTexture(kind)
-  root.traverse(o => {
-    const mesh = o as THREE.Mesh
-    if (mesh.isMesh) {
-      const mat = (mesh.material as THREE.MeshStandardMaterial).clone() as THREE.MeshStandardMaterial
-      mat.map = tex.map; mat.bumpMap = tex.bump; mat.bumpScale = tex.bumpScale
-      mat.roughness = tex.rough; mat.metalness = 0; mat.color.set('#ffffff')
-      mesh.material = mat; mesh.castShadow = true
-    }
-  })
-}
+const useIsMobile = () => useMemo(() => typeof window !== 'undefined' && window.matchMedia('(max-width: 767px)').matches, [])
 
-/* ================= Per-dish scene config — har signature alag dikhega ================= */
+/* ================= Per-dish scene config — sirf REAL poster-menu signatures ================= */
 interface Placed { model: 'gyoza' | 'bun'; tex: TexKind; pos: [number, number, number]; s?: number; rot?: number }
-interface SceneCfg { mode: 'momos' | 'twister' | 'platter'; tex: TexKind; steam: number; accent: string; plate: number; items?: Placed[] }
+interface SceneCfg { mode: 'momos' | 'twister' | 'rolls'; tex: TexKind; steam: number; accent: string; plate: number; sauce?: boolean; items?: Placed[] }
 const ring = (n: number, r: number): [number, number, number][] => Array.from({ length: n }, (_, i) => { const a = (i / n) * Math.PI * 2 + 0.5; return [Math.cos(a) * r, 0, Math.sin(a) * r] })
+const ringItems = (model: 'gyoza' | 'bun', tex: TexKind, centreS = 1, ringS = 0.92): Placed[] =>
+  [{ model, tex, pos: [0, 0, 0], s: centreS }, ...ring(5, 0.95).map(p => ({ model, tex, pos: p, s: ringS }))]
 function sceneConfig(dish: Dish): SceneCfg {
   switch (dish.id) {
-    case 'steam-veg': return { mode: 'momos', tex: 'steam', steam: 175, accent: '#d4af37', plate: 1, items: [{ model: 'bun', tex: 'steam', pos: [0, 0, 0], s: 1.05 }, ...ring(5, 0.95).map(p => ({ model: 'bun' as const, tex: 'steam' as TexKind, pos: p, s: 0.92 }))] }
-    case 'kurkure-paneer': return { mode: 'momos', tex: 'kurkure', steam: 22, accent: '#FF8A00', plate: 1, items: [{ model: 'gyoza', tex: 'kurkure', pos: [0, 0, 0], s: 1.02 }, ...ring(5, 0.93).map(p => ({ model: 'gyoza' as const, tex: 'kurkure' as TexKind, pos: p, s: 0.94 }))] }
-    case 'afghani-paneer': return { mode: 'momos', tex: 'afghani', steam: 80, accent: '#e6d7b8', plate: 1, items: [{ model: 'gyoza', tex: 'afghani', pos: [0, 0, 0], s: 1.0 }, ...ring(5, 0.9).map(p => ({ model: 'gyoza' as const, tex: 'afghani' as TexKind, pos: p, s: 0.9 }))] }
-    case 'tandoori-paneer': return { mode: 'momos', tex: 'tandoori', steam: 48, accent: '#FF3B30', plate: 1, items: [{ model: 'gyoza', tex: 'tandoori', pos: [0, 0, 0], s: 1.1 }, ...ring(5, 1.08).map(p => ({ model: 'gyoza' as const, tex: 'tandoori' as TexKind, pos: p, s: 1.02 }))] }
-    case 'twister-cheese': return { mode: 'twister', tex: 'cheese', steam: 42, accent: '#e0a21a', plate: 0.92 }
-    case 'platter-crazy': return { mode: 'platter', tex: 'fried', steam: 65, accent: '#d4af37', plate: 1.3, items: [
-      { model: 'gyoza', tex: 'kurkure', pos: [-1.05, 0, -0.55], s: 0.95 }, { model: 'gyoza', tex: 'tandoori', pos: [1.05, 0, -0.55], s: 0.95 },
-      { model: 'gyoza', tex: 'fried', pos: [-1.05, 0, 0.75], s: 0.95 }, { model: 'bun', tex: 'steam', pos: [1.05, 0, 0.75], s: 0.9 },
-      { model: 'bun', tex: 'steam', pos: [0, 0, -1.15], s: 0.9 }, { model: 'gyoza', tex: 'afghani', pos: [0, 0, 1.2], s: 0.92 }] }
+    case 'steam-veg': return { mode: 'momos', tex: 'dough', steam: 190, accent: '#d4af37', plate: 1, items: ringItems('bun', 'dough', 1.05, 0.92) }
+    case 'fried-paneer': return { mode: 'momos', tex: 'fried', steam: 55, accent: '#FF8A00', plate: 1, items: ringItems('gyoza', 'fried', 1.02, 0.94) }
+    case 'kurkure-paneer': return { mode: 'momos', tex: 'kurkure', steam: 22, accent: '#FF8A00', plate: 1, items: ringItems('gyoza', 'kurkure', 1.02, 0.94) }
+    case 'gravy-cheese-corn': return { mode: 'momos', tex: 'gravy', steam: 165, accent: '#e8641c', plate: 1.05, sauce: true, items: ringItems('gyoza', 'gravy', 1.0, 0.9) }
+    case 'twister-cheese': return { mode: 'twister', tex: 'cheese', steam: 42, accent: '#ffb400', plate: 0.92 }
+    case 'springroll-kurkure': return { mode: 'rolls', tex: 'kurkure', steam: 26, accent: '#d8541c', plate: 1 }
     default: {
-      const tex: TexKind = dish.category === 'Kurkure Momos' ? 'kurkure' : dish.category === 'Gravy Momos' ? 'gravy' : dish.category === 'Fried Momos' ? 'fried' : dish.category === 'Tandoori & Afghani' ? 'tandoori' : 'steam'
+      const tex: TexKind = dish.category === 'Kurkure Momos' ? 'kurkure' : dish.category === 'Gravy Momos' ? 'gravy' : dish.category === 'Fried Momos' ? 'fried' : 'dough'
       const model: 'gyoza' | 'bun' = dish.category === 'Steam Momos' ? 'bun' : 'gyoza'
-      return { mode: 'momos', tex, steam: 90, accent: dish.color ?? '#d4af37', plate: 1, items: [{ model, tex, pos: [0, 0, 0] }, ...ring(5, 0.95).map(p => ({ model, tex, pos: p, s: 0.92 }))] }
+      return { mode: 'momos', tex, steam: dish.category === 'Steam Momos' || dish.category === 'Gravy Momos' ? 150 : 80, accent: dish.color ?? '#d4af37', plate: 1, sauce: dish.category === 'Gravy Momos', items: ringItems(model, tex) }
     }
   }
 }
@@ -110,11 +41,11 @@ function Momo({ position, kind, scale = 1 }: { position: [number, number, number
     <group position={position} scale={scale}>
       <mesh castShadow scale={[1, 0.86, 1]}>
         <sphereGeometry args={[0.42, 40, 32]} />
-        <meshStandardMaterial map={tex.map} bumpMap={tex.bump} bumpScale={tex.bumpScale} roughness={tex.rough} />
+        <meshStandardMaterial map={tex.map} bumpMap={tex.bump} bumpScale={tex.bumpScale} roughnessMap={tex.roughMap} roughness={tex.roughness} envMapIntensity={tex.envMapIntensity} />
       </mesh>
       <mesh position={[0, 0.3, 0]} rotation={[Math.PI / 2.4, 0, 0]}>
         <torusKnotGeometry args={[0.13, 0.055, 90, 12]} />
-        <meshStandardMaterial map={tex.map} roughness={tex.rough} />
+        <meshStandardMaterial map={tex.map} roughness={tex.roughness} envMapIntensity={tex.envMapIntensity} />
       </mesh>
     </group>
   )
@@ -125,7 +56,7 @@ class ModelBoundary extends Component<{ fallback: ReactNode; children: ReactNode
   render() { return this.state.err ? this.props.fallback : this.props.children }
 }
 
-/** Real free CC models (Poly Pizza): Gyoza + Steam Bun, self-hosted in public/models/ */
+/** Real free CC 3D models: Gyoza + Steam Bun GLB, self-hosted in public/models/ */
 function ModelItems({ items }: { items: Placed[] }) {
   const gyoza = useGLTF(`${import.meta.env.BASE_URL}models/gyoza.glb`)
   const bun = useGLTF(`${import.meta.env.BASE_URL}models/steambun.glb`)
@@ -154,6 +85,7 @@ class Helix extends THREE.Curve<THREE.Vector3> {
 }
 function TwisterGroup() {
   const golden = useMemo(() => makeFoodTexture('fried'), [])
+  const cheeseTex = useMemo(() => makeFoodTexture('cheese'), [])
   const potato = useMemo(() => new THREE.TubeGeometry(new Helix(1.9, 0.3, 8), 260, 0.088, 10, false), [])
   const cheese = useMemo(() => new THREE.TubeGeometry(new Helix(1.94, 0.315, 8, 0.55), 260, 0.042, 8, false), [])
   return (
@@ -163,11 +95,39 @@ function TwisterGroup() {
         <meshStandardMaterial color="#b98a4e" roughness={0.8} />
       </mesh>
       <mesh geometry={potato} position={[0, 0.1, 0]} castShadow>
-        <meshStandardMaterial map={golden.map} bumpMap={golden.bump} bumpScale={0.3} roughness={0.55} color="#f0b45a" />
+        <meshStandardMaterial map={golden.map} bumpMap={golden.bump} bumpScale={golden.bumpScale} roughnessMap={golden.roughMap} roughness={golden.roughness} envMapIntensity={golden.envMapIntensity} color="#ffc266" />
       </mesh>
       <mesh geometry={cheese} position={[0, 0.16, 0]}>
-        <meshStandardMaterial color="#ffb400" roughness={0.16} metalness={0.02} emissive="#7a4d00" emissiveIntensity={0.25} />
+        <meshStandardMaterial map={cheeseTex.map} bumpMap={cheeseTex.bump} bumpScale={cheeseTex.bumpScale} roughnessMap={cheeseTex.roughMap} roughness={cheeseTex.roughness} envMapIntensity={cheeseTex.envMapIntensity} emissive={cheeseTex.emissive} emissiveIntensity={cheeseTex.emissiveIntensity} />
       </mesh>
+    </group>
+  )
+}
+
+/* ================= Kurkure Spring Rolls — capsule rolls plate par ================= */
+function RollsGroup() {
+  const tex = useMemo(() => makeFoodTexture('kurkure'), [])
+  const rolls = useMemo(() => [
+    { p: [-0.72, 0.62, -0.42] as [number, number, number], r: 0.5 },
+    { p: [0.05, 0.62, -0.62] as [number, number, number], r: 0.15 },
+    { p: [0.78, 0.62, -0.3] as [number, number, number], r: -0.35 },
+    { p: [-0.45, 0.62, 0.5] as [number, number, number], r: 1.15 },
+    { p: [0.5, 0.62, 0.55] as [number, number, number], r: 0.85 },
+    { p: [0, 0.88, 0.02] as [number, number, number], r: 0.45 },
+  ], [])
+  return (
+    <group>
+      {rolls.map((r, i) => (
+        <mesh key={i} position={r.p} rotation={[0, r.r, Math.PI / 2]} castShadow>
+          <capsuleGeometry args={[0.21, 0.78, 8, 18]} />
+          <meshStandardMaterial map={tex.map} bumpMap={tex.bump} bumpScale={tex.bumpScale} roughnessMap={tex.roughMap} roughness={tex.roughness} envMapIntensity={tex.envMapIntensity} />
+        </mesh>
+      ))}
+      {/* centre chutney bowl */}
+      <group position={[0, 0.42, 0]}>
+        <mesh><cylinderGeometry args={[0.4, 0.28, 0.24, 28]} /><meshStandardMaterial color="#0d0d0d" roughness={0.3} metalness={0.4} /></mesh>
+        <mesh position={[0, 0.12, 0]}><cylinderGeometry args={[0.35, 0.35, 0.05, 28]} /><meshStandardMaterial color="#c22318" roughness={0.15} envMapIntensity={1.2} /></mesh>
+      </group>
     </group>
   )
 }
@@ -191,7 +151,7 @@ function Garnish({ kind }: { kind: 'green' | 'chilli' | 'both' }) {
   )
 }
 
-/* ================= Steam particles (per-dish density) ================= */
+/* ================= Steam particles (per-dish density, mobile par halved) ================= */
 function Steam({ count = 120 }: { count?: number }) {
   const ref = useRef<THREE.Points>(null)
   const { positions, speeds } = useMemo(() => {
@@ -217,18 +177,21 @@ function Steam({ count = 120 }: { count?: number }) {
 
 function EnvTune() {
   const { scene } = useThree()
-  useEffect(() => { const s = scene as THREE.Scene & { environmentIntensity?: number }; s.environmentIntensity = 0.5 }, [scene])
+  useEffect(() => { const s = scene as THREE.Scene & { environmentIntensity?: number }; s.environmentIntensity = 0.55 }, [scene])
   return null
 }
 
 export function DishScene({ dish, height = '100%' }: { dish: Dish; height?: string }) {
   const [interacting, setInteracting] = useState(false)
   const idle = useRef<number>(0)
+  const isMobile = useIsMobile()
   const cfg = useMemo(() => sceneConfig(dish), [dish])
   const fallbackItems = cfg.items ?? []
+  const gravyTex = useMemo(() => makeFoodTexture('gravy'), [])
+  const steamCount = isMobile ? Math.round(cfg.steam * 0.45) : cfg.steam
   return (
     <div style={{ height }} className="w-full" role="img" aria-label={`${dish.name} ka interactive 360 degree 3D view — drag karke ghumao`}>
-      <Canvas dpr={[1, 2]} camera={{ position: [0, 2.6, 4.6], fov: 42 }} gl={{ antialias: true, alpha: true, toneMapping: THREE.ACESFilmicToneMapping, toneMappingExposure: 1.06 }} frameloop="always">
+      <Canvas dpr={isMobile ? [1, 1.5] : [1, 2]} camera={{ position: [0, 2.6, 4.6], fov: 42 }} gl={{ antialias: true, alpha: true, toneMapping: THREE.ACESFilmicToneMapping, toneMappingExposure: 1.08 }} frameloop="always">
         <Suspense fallback={null}>
           <ambientLight intensity={0.35} />
           <directionalLight position={[4, 6, 3]} intensity={2.2} color="#fff2df" />
@@ -245,19 +208,19 @@ export function DishScene({ dish, height = '100%' }: { dish: Dish; height?: stri
               <torusGeometry args={[1.72, 0.07, 14, 64]} />
               <meshStandardMaterial color={cfg.accent} roughness={0.3} metalness={0.8} />
             </mesh>
-            {cfg.mode === 'platter' && ( /* centre chutney bowl */
-              <group position={[0, 0.4, 0]}>
-                <mesh><cylinderGeometry args={[0.42, 0.3, 0.26, 28]} /><meshStandardMaterial color="#0d0d0d" roughness={0.3} metalness={0.4} /></mesh>
-                <mesh position={[0, 0.13, 0]}><cylinderGeometry args={[0.37, 0.37, 0.05, 28]} /><meshStandardMaterial color="#c22318" roughness={0.18} /></mesh>
-              </group>
+            {cfg.sauce && ( /* gravy sauce pool — glossy, cream-swirled */
+              <mesh position={[0, 0.4, 0]} scale={[cfg.plate, 1, cfg.plate]} receiveShadow>
+                <cylinderGeometry args={[1.55, 1.55, 0.1, 48]} />
+                <meshStandardMaterial map={gravyTex.map} bumpMap={gravyTex.bump} bumpScale={0.05} roughnessMap={gravyTex.roughMap} roughness={gravyTex.roughness} envMapIntensity={1.25} />
+              </mesh>
             )}
-            {cfg.mode === 'twister' ? <TwisterGroup /> : (
+            {cfg.mode === 'twister' ? <TwisterGroup /> : cfg.mode === 'rolls' ? <RollsGroup /> : (
               <ModelBoundary fallback={<>{fallbackItems.map((p, i) => <Momo key={i} position={[p.pos[0], 0.78, p.pos[2]]} kind={p.tex} scale={p.s ?? 0.95} />)}</>}>
                 <Suspense fallback={null}><ModelItems items={cfg.items ?? []} /></Suspense>
               </ModelBoundary>
             )}
-            {cfg.mode !== 'momos' || cfg.tex === 'kurkure' || cfg.tex === 'tandoori' ? <Garnish kind={cfg.tex === 'kurkure' ? 'chilli' : cfg.mode === 'twister' ? 'green' : 'both'} /> : null}
-            <Steam count={cfg.steam} />
+            {cfg.tex === 'kurkure' ? <Garnish kind="chilli" /> : cfg.mode === 'twister' ? <Garnish kind="green" /> : cfg.tex === 'gravy' ? <Garnish kind="both" /> : null}
+            <Steam count={steamCount} />
           </group>
           <ContactShadows position={[0, -1.5, 0]} opacity={0.55} scale={9} blur={2.6} far={3} />
           <Environment preset="city" />
@@ -301,12 +264,12 @@ export default function DishViewer360() {
             <p className="text-white/70 mt-3 max-w-xl">{dish.desc}</p>
             <div className="flex flex-wrap items-center gap-3 mt-5">
               <div className="flex items-center gap-3 rounded-full border border-white/15 px-2 py-1.5">
-                <button onClick={() => setQty(q => Math.max(1, q - 1))} aria-label="Quantity kam karo" className="w-9 h-9 grid place-items-center rounded-full bg-white/10 active:scale-90"><Minus size={16} /></button>
+                <button onClick={() => setQty(q => Math.max(1, q - 1))} aria-label="Quantity kam karo" className="w-11 h-11 grid place-items-center rounded-full bg-white/10 active:scale-90"><Minus size={16} /></button>
                 <span className="font-display text-xl w-6 text-center" aria-live="polite">{qty}</span>
-                <button onClick={() => setQty(q => Math.min(20, q + 1))} aria-label="Quantity badhao" className="w-9 h-9 grid place-items-center rounded-full bg-white/10 active:scale-90"><Plus size={16} /></button>
+                <button onClick={() => setQty(q => Math.min(20, q + 1))} aria-label="Quantity badhao" className="w-11 h-11 grid place-items-center rounded-full bg-white/10 active:scale-90"><Plus size={16} /></button>
               </div>
-              <button onClick={() => { add(dish, qty); setQty(1) }} className="flex items-center gap-2 rounded-full grad-bg text-black font-bold px-6 py-3 active:scale-95 transition"><ShoppingBag size={18} /> Add to Order List</button>
-              <a href={waLink(`Hi Crazy Momo Corner! Mujhe ${qty} x ${dish.name} order karna hai.`)} target="_blank" rel="noreferrer" className="rounded-full bg-[#25D366] text-[#04240f] font-bold px-6 py-3 active:scale-95 transition">Order on WhatsApp</a>
+              <button onClick={() => { add(dish, qty); setQty(1) }} className="flex items-center gap-2 rounded-full grad-bg text-black font-bold px-6 py-3 min-h-[48px] active:scale-95 transition"><ShoppingBag size={18} /> Add to Order List</button>
+              <a href={waLink(`Hi Crazy Momo Corner! Mujhe ${qty} x ${dish.name} order karna hai.`)} target="_blank" rel="noreferrer" className="rounded-full bg-[#25D366] text-[#04240f] font-bold px-6 py-3 min-h-[48px] inline-flex items-center active:scale-95 transition">Order on WhatsApp</a>
               <span className="text-white/40 text-xs">{SITE.timingShort} • {SITE.phoneDisplay}</span>
             </div>
           </div>

@@ -59,7 +59,7 @@ export default function Showcase360() {
   )
   if (isMobile) {
     return (
-      <section id="specials" className="py-20 overflow-hidden">
+      <section id="specials" className="py-14 overflow-hidden">
         <div className="max-w-7xl mx-auto px-4">
           <h2 className="font-display uppercase text-[clamp(2.2rem,8vw,4.5rem)] leading-none">Hamare <span className="font-accent normal-case grad-text text-[1.15em]">crazy</span> 360° Specials</h2>
           <p className="mut mt-2">Side me swipe karo — har dish 3D me ghumti hui.</p>

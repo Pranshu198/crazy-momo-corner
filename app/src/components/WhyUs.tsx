@@ -24,7 +24,7 @@ export default function WhyUs() {
           ))}
           <motion.figure initial={{ opacity: 0, scale: 0.94 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true, margin: '-60px' }} transition={{ duration: 0.6 }}
             className="jump-hover relative lg:col-span-2 rounded-[26px] overflow-hidden img-frame border line min-h-[190px]">
-            <img src={`${import.meta.env.BASE_URL}img/kurkure.jpg`} alt="Kurkure Momos — crunch ka king, Crazy Momo Corner" width={1600} height={1600} loading="lazy" className="absolute inset-0 w-full h-full object-cover" />
+            <img decoding="async" src={`${import.meta.env.BASE_URL}img/kurkure.jpg`} alt="Kurkure Momos — crunch ka king, Crazy Momo Corner" width={1600} height={1600} loading="lazy" className="absolute inset-0 w-full h-full object-cover" />
             <figcaption className="absolute bottom-3 left-3 sticker sticker-dark text-xs px-3 py-1.5 -rotate-2">Crunch ka king — Kurkure Momos</figcaption>
           </motion.figure>
           <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.55 }}

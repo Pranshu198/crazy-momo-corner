@@ -13,6 +13,7 @@ import Stats from './components/Stats'
 import Showcase360 from './components/Showcase360'
 import PlateBuilder from './components/PlateBuilder'
 import MenuWall from './components/MenuWall'
+import DeliveryScooter from './components/DeliveryScooter'
 import GlowFollower from './components/GlowFollower'
 import SideIndicator from './components/SideIndicator'
 import OrderDrawer from './components/OrderDrawer'
@@ -37,7 +38,7 @@ function Toast() {
     <AnimatePresence>
       {toast && (
         <motion.button initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 12 }} onClick={() => setDrawerOpen(true)}
-          className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[92] flex items-center gap-2 bg-[#111] text-white border border-white/15 rounded-full pl-4 pr-5 py-3 shadow-2xl text-sm font-heading font-bold whitespace-nowrap max-w-[92vw] overflow-hidden text-ellipsis">
+          className="fixed bottom-24 sm:bottom-6 left-1/2 -translate-x-1/2 z-[92] flex items-center gap-2 bg-[#111] text-white border border-white/15 rounded-full pl-4 pr-5 py-3 shadow-2xl text-sm font-heading font-bold whitespace-nowrap max-w-[92vw] overflow-hidden text-ellipsis">
           <CheckCircle2 size={17} className="text-[#22C55E] shrink-0" /> <span className="overflow-hidden text-ellipsis">{toast}</span> <span className="grad-text shrink-0">Dekho →</span>
         </motion.button>
       )}
@@ -102,7 +103,7 @@ function Shell() {
   return (
     <div className="min-h-screen">
       <motion.div style={{ scaleX: progress }} className="fixed top-0 left-0 right-0 h-[3px] grad-bg origin-left z-[96]" aria-hidden />
-      <div className="grain fixed inset-0 z-[2] pointer-events-none opacity-70" aria-hidden />
+      <div className="grain grain-overlay fixed inset-0 z-[2] pointer-events-none opacity-70" aria-hidden />
       <GlowFollower />
       <SideIndicator />
       <Preloader />
@@ -122,6 +123,7 @@ function Shell() {
         <Showcase360 />
         <PlateBuilder />
         <MenuWall />
+        <DeliveryScooter />
         <WhyUs />
         <ProcessStrip />
         <Gallery />

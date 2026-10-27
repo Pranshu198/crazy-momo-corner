@@ -26,15 +26,15 @@ export default function OrderDrawer() {
               {order.length === 0 && <p className="mut text-center py-14">Order list khaali hai.<br />Menu se apni pasand add karo!</p>}
               {order.map(i => (
                 <div key={i.dish.id} className="surface2 rounded-2xl p-3.5 flex gap-3 items-center">
-                  <img src={`${import.meta.env.BASE_URL}${i.dish.img}`} alt="" className="w-14 h-14 rounded-xl object-cover img-frame shrink-0" loading="lazy" />
+                  <img decoding="async" src={`${import.meta.env.BASE_URL}${i.dish.img}`} alt="" className="w-14 h-14 rounded-xl object-cover img-frame shrink-0" loading="lazy" />
                   <div className="flex-1 min-w-0">
                     <div className="font-heading font-bold text-sm leading-snug">{i.dish.name}</div>
                     <div className="mut text-xs mt-0.5">{i.dish.price === 'ADD_PRICE' ? 'Price shop par confirm hoga' : `₹${i.dish.price} x ${i.qty} = ₹${(i.dish.price as number) * i.qty}`}</div>
                   </div>
                   <div className="flex items-center gap-1.5">
-                    <button onClick={() => setQty(i.dish.id, i.qty - 1)} aria-label="Kam karo" className="w-8 h-8 grid place-items-center rounded-full surface active:scale-90"><Minus size={14} /></button>
+                    <button onClick={() => setQty(i.dish.id, i.qty - 1)} aria-label="Kam karo" className="w-11 h-11 grid place-items-center rounded-full surface active:scale-90"><Minus size={14} /></button>
                     <span className="w-5 text-center font-bold text-sm">{i.qty}</span>
-                    <button onClick={() => setQty(i.dish.id, i.qty + 1)} aria-label="Badhao" className="w-8 h-8 grid place-items-center rounded-full surface active:scale-90"><Plus size={14} /></button>
+                    <button onClick={() => setQty(i.dish.id, i.qty + 1)} aria-label="Badhao" className="w-11 h-11 grid place-items-center rounded-full surface active:scale-90"><Plus size={14} /></button>
                   </div>
                 </div>
               ))}

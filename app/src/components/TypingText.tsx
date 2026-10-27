@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-const WORDS = ['STEAM MOMOS', 'KURKURE MOMOS', 'TANDOORI MOMOS', 'AFGHANI MOMOS', 'GRAVY MOMOS']
+const WORDS = ['STEAM MOMOS', 'KURKURE MOMOS', 'FRIED MOMOS', 'GRAVY MOMOS', 'CHEESE TWISTER']
 export default function TypingText() {
   const [text, setText] = useState('')
   useEffect(() => {

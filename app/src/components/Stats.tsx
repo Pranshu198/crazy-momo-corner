@@ -21,7 +21,7 @@ export default function Stats() {
   const stats = [
     { v: <Counter to={SITE.rating} decimals={1} />, label: 'Justdial Rating' },
     { v: <Counter to={SITE.ratingCount} suffix="+" />, label: 'Happy Ratings' },
-    { v: <Counter to={MENU.length} suffix="+" />, label: 'Dishes & Combos' },
+    { v: <Counter to={MENU.length} suffix="+" />, label: 'Dishes & Styles' },
     { v: <Counter to={7} />, label: 'Days Open / Week' },
   ]
   return (
