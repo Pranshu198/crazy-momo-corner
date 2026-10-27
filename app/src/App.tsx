@@ -11,7 +11,10 @@ import Hero from './components/Hero'
 import Marquee from './components/Marquee'
 import Stats from './components/Stats'
 import Showcase360 from './components/Showcase360'
-import MenuSection from './components/MenuSection'
+import PlateBuilder from './components/PlateBuilder'
+import MenuWall from './components/MenuWall'
+import GlowFollower from './components/GlowFollower'
+import SideIndicator from './components/SideIndicator'
 import OrderDrawer from './components/OrderDrawer'
 import DishViewer360 from './components/DishViewer360'
 import WhyUs from './components/WhyUs'
@@ -56,6 +59,33 @@ function Shell() {
       return () => { gsap.ticker.remove(tick); lenis?.destroy() }
     }
   }, [])
+  // GSAP scroll choreography — reveals, clip-path headings, parallax layers
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    const ctx = gsap.context(() => {
+      gsap.utils.toArray<HTMLElement>('[data-reveal]').forEach(el => {
+        gsap.fromTo(el, { y: 48, autoAlpha: 0 }, {
+          y: 0, autoAlpha: 1, duration: 0.95, ease: 'power3.out',
+          scrollTrigger: { trigger: el, start: 'top 88%' },
+        })
+      })
+      gsap.utils.toArray<HTMLElement>('[data-clip]').forEach(el => {
+        gsap.fromTo(el, { clipPath: 'inset(0 0 100% 0)', y: 26 }, {
+          clipPath: 'inset(0 0 0% 0)', y: 0, duration: 1.1, ease: 'power4.out',
+          scrollTrigger: { trigger: el, start: 'top 88%' },
+        })
+      })
+      gsap.utils.toArray<HTMLElement>('[data-parallax]').forEach(el => {
+        const sp = parseFloat(el.dataset.parallax || '10')
+        gsap.fromTo(el, { yPercent: -sp / 2 }, {
+          yPercent: sp / 2, ease: 'none',
+          scrollTrigger: { trigger: el.parentElement ?? el, start: 'top bottom', end: 'bottom top', scrub: true },
+        })
+      })
+    })
+    const t = window.setTimeout(() => ScrollTrigger.refresh(), 2400)
+    return () => { window.clearTimeout(t); ctx.revert() }
+  }, [])
   // Magnetic buttons (desktop)
   useEffect(() => {
     if (window.matchMedia('(pointer: coarse)').matches) return
@@ -72,6 +102,9 @@ function Shell() {
   return (
     <div className="min-h-screen">
       <motion.div style={{ scaleX: progress }} className="fixed top-0 left-0 right-0 h-[3px] grad-bg origin-left z-[96]" aria-hidden />
+      <div className="grain fixed inset-0 z-[2] pointer-events-none opacity-70" aria-hidden />
+      <GlowFollower />
+      <SideIndicator />
       <Preloader />
       <CustomCursor />
       <Navbar />
@@ -83,8 +116,12 @@ function Shell() {
       <main>
         <Hero />
         <Stats />
+        <div className="relative rotate-[1.2deg] -mx-4 surface border-y line py-2.5 overflow-hidden z-10 shadow-lg" aria-hidden>
+          <Marquee items="BUILD YOUR PLATE • 360° MOMOS • STREET KA ASLI SWAD • " outline speed={38} className="text-[clamp(1.6rem,4.5vw,3rem)] opacity-70" />
+        </div>
         <Showcase360 />
-        <MenuSection />
+        <PlateBuilder />
+        <MenuWall />
         <WhyUs />
         <ProcessStrip />
         <Gallery />

@@ -3,9 +3,9 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --font-display: "Anton", sans-serif;
-  --font-heading: "Space Grotesk", sans-serif;
-  --font-body: "Outfit", sans-serif;
+  --font-display: "Bricolage Grotesque", sans-serif;
+  --font-heading: "Bricolage Grotesque", sans-serif;
+  --font-body: "Manrope", sans-serif;
   --font-accent: "Caveat", cursive;
   --color-heat: #FF3B30;
   --color-ember: #FF8A00;
@@ -47,5 +47,37 @@ body { background:var(--bg); color:var(--txt); font-family:var(--font-body); tra
 .card-shine::before { content:""; position:absolute; top:0; left:-80%; width:55%; height:100%; transform:skewX(-20deg); background:linear-gradient(90deg,transparent,rgba(255,255,255,.14),transparent); transition:left .7s ease; z-index:2; pointer-events:none; }
 .card-shine:hover::before { left:130%; }
 .img-frame { background:#0a0a0a; }
+/* Bricolage display — quirky grotesque, tight + confident */
+.font-display { letter-spacing:-0.02em; font-weight:800; }
+.font-heading { letter-spacing:-0.01em; }
+/* Sticker badges — thick border + hard offset shadow, slight rotation */
+.sticker { border:2px solid var(--txt); box-shadow:4px 4px 0 #FF3B30; border-radius:999px; background:var(--surface); font-family:var(--font-heading); font-weight:700; }
+.sticker-gold { box-shadow:4px 4px 0 #d4af37; }
+.sticker-dark { background:#0A0A0A; color:#fff; border-color:#0A0A0A; box-shadow:4px 4px 0 #FF8A00; }
+.shadow-hard { box-shadow:6px 6px 0 #FF3B30; }
+.shadow-hard-gold { box-shadow:6px 6px 0 #d4af37; }
+.shadow-hard-ink { box-shadow:6px 6px 0 rgba(127,127,127,.55); }
+/* Playful hover — cards jump + tilt 1deg */
+.jump-hover { transition:transform .3s cubic-bezier(.34,1.56,.64,1), box-shadow .3s; }
+.jump-hover:hover { transform:translateY(-5px) rotate(1deg); }
+/* Angled section edges */
+.clip-slant { clip-path:polygon(0 22px, 100% 0, 100% calc(100% - 22px), 0 100%); }
+@media (max-width:640px){ .clip-slant { clip-path:polygon(0 12px, 100% 0, 100% calc(100% - 12px), 0 100%); } }
+/* Dotted price leader (menu wall) */
+.dot-leader { flex:1 1 auto; min-width:1.5rem; border-bottom:2px dotted var(--line); transform:translateY(-4px); }
+/* 3D tilt cards (transform driven by JS custom props) */
+.tilt-wrap { perspective:900px; }
+.tilt-inner { transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)); transform-style:preserve-3d; transition:transform .35s cubic-bezier(.2,.8,.25,1); will-change:transform; }
+.tilt-wrap:hover .tilt-inner { transition:transform .12s ease-out; }
+.tilt-glare { position:absolute; inset:0; border-radius:inherit; pointer-events:none; opacity:0; transition:opacity .3s; background:radial-gradient(420px circle at var(--gx,50%) var(--gy,50%), rgba(255,255,255,.16), transparent 65%); z-index:3; }
+.tilt-wrap:hover .tilt-glare { opacity:1; }
+/* GSAP reveal starting states are set from JS (no-JS safe) */
+[data-parallax] { will-change:transform; }
+/* Animated gradient glow blob */
+@keyframes glowdrift { 0%,100%{ transform:translate(0,0) scale(1) } 33%{ transform:translate(60px,-40px) scale(1.15) } 66%{ transform:translate(-50px,30px) scale(.92) } }
+.glow-drift { animation:glowdrift 14s ease-in-out infinite; }
+/* Side section indicator */
+.side-dot { transition:all .35s ease; }
 @media (pointer:coarse) { .custom-cursor { display:none !important; } }
-@media (prefers-reduced-motion: reduce) { .marquee-track,.floaty,.pulse-ring { animation:none !important; } }
+@media (prefers-reduced-motion: reduce) { .marquee-track,.floaty,.pulse-ring,.glow-drift { animation:none !important; } .tilt-inner { transform:none !important; } }
+@media (max-width:767px) { .glow-follower { display:none !important; } }

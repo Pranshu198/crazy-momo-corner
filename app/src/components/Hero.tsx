@@ -24,10 +24,10 @@ export default function Hero() {
       </div>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 grid lg:grid-cols-2 gap-10 items-center relative z-10 w-full">
         <div>
-          <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="flex flex-wrap gap-2">
-            <span className="flex items-center gap-1.5 text-xs font-heading font-bold tracking-wider rounded-full border line surface px-3 py-1.5"><Star size={13} className="text-[#FF8A00]" fill="#FF8A00" /> {SITE.rating.toFixed(1)} Rated ({SITE.ratingCount} Justdial)</span>
-            <span className="flex items-center gap-1.5 text-xs font-heading font-bold tracking-wider rounded-full border line surface px-3 py-1.5"><MapPin size={13} className="text-[#FF3B30]" /> Uttam Nagar</span>
-            <span className="flex items-center gap-1.5 text-xs font-heading font-bold tracking-wider rounded-full border line surface px-3 py-1.5"><Clock size={13} className="text-[#FF8A00]" /> Till 11 PM</span>
+          <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="flex flex-wrap gap-3">
+            <span className="sticker -rotate-2 flex items-center gap-1.5 text-xs tracking-wider px-3.5 py-1.5"><Star size={13} className="text-[#FF8A00]" fill="#FF8A00" /> {SITE.rating.toFixed(1)} Rated ({SITE.ratingCount} Justdial)</span>
+            <span className="sticker sticker-gold rotate-1 flex items-center gap-1.5 text-xs tracking-wider px-3.5 py-1.5"><MapPin size={13} className="text-[#FF3B30]" /> Uttam Nagar</span>
+            <span className="sticker -rotate-1 flex items-center gap-1.5 text-xs tracking-wider px-3.5 py-1.5"><Clock size={13} className="text-[#FF8A00]" /> Till 11 PM</span>
           </motion.div>
           <h1 className="font-display uppercase leading-[0.92] mt-5 text-[clamp(3.2rem,11vw,7.5rem)]">
             {'CRAZY MOMO'.split('').map((c, i) => (
@@ -39,8 +39,8 @@ export default function Hero() {
           <p className="font-accent text-2xl sm:text-3xl text-[#FF8A00] mt-2">{SITE.tagline}</p>
           <p className="mut mt-3 max-w-md">{SITE.freeDelivery}. Steam se kurkure tak — har plate fresh, garam aur loaded.</p>
           <div className="flex flex-wrap gap-3 mt-7">
-            <button data-magnetic onClick={() => document.querySelector('#menu')?.scrollIntoView({ behavior: 'smooth' })} className="grad-bg text-white font-bold rounded-full px-7 py-3.5 shadow-xl active:scale-95 transition-transform">Explore Menu</button>
-            <a data-magnetic href={waLink('Hi Crazy Momo Corner! Mujhe order karna hai.')} target="_blank" rel="noreferrer" className="bg-[#25D366] text-[#04240f] font-bold rounded-full px-7 py-3.5 shadow-xl active:scale-95 transition-transform">Order on WhatsApp</a>
+            <button data-magnetic onClick={() => document.querySelector('#builder')?.scrollIntoView({ behavior: 'smooth' })} className="grad-bg text-white font-bold rounded-full px-7 py-3.5 shadow-hard active:scale-95 transition-transform">Build Your Plate</button>
+            <a data-magnetic href={waLink('Hi Crazy Momo Corner! Mujhe order karna hai.')} target="_blank" rel="noreferrer" className="bg-[#25D366] text-[#04240f] font-bold rounded-full px-7 py-3.5 shadow-hard-gold active:scale-95 transition-transform">Order on WhatsApp</a>
           </div>
           <div className="mt-8 flex items-center gap-2 mut text-xs font-heading tracking-widest"><span className="w-8 h-px grad-bg" /> {MENU.length}+ DISHES • PURE VEG • {SITE.timingShort}</div>
         </div>

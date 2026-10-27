@@ -5,7 +5,7 @@ import { SITE } from '../data/site'
 import { useApp } from '../context/AppContext'
 import ThemeToggle from './ThemeToggle'
 
-const LINKS = [['Home', '#home'], ['360° Specials', '#specials'], ['Menu', '#menu'], ['Why Us', '#why'], ['Gallery', '#gallery'], ['Reviews', '#reviews'], ['Visit Us', '#visit']] as const
+const LINKS = [['Home', '#home'], ['360° Specials', '#specials'], ['Build Your Plate', '#builder'], ['Menu', '#menu'], ['Why Us', '#why'], ['Gallery', '#gallery'], ['Reviews', '#reviews'], ['Visit Us', '#visit']] as const
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
