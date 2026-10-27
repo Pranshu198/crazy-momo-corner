@@ -12,7 +12,7 @@ export default function WhyUs() {
     <section id="why" className="py-24 sm:py-28 surface border-y line clip-slant relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="font-heading text-xs tracking-[0.3em] mut" data-reveal>09 — WHY US</div>
-        <h2 className="font-display uppercase text-[clamp(2.4rem,7vw,4.6rem)] leading-[0.95] mt-2" data-clip>Crazy hi <span className="font-accent normal-case grad-text text-[1.12em]">kyun?</span></h2>
+        <h2 className="font-display uppercase text-[clamp(2.4rem,7vw,4.6rem)] leading-[0.95] mt-2 text-3d" data-clip>Crazy hi <span className="font-accent normal-case text-script-3d text-[1.12em]">kyun?</span></h2>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 mt-10">
           {CARDS.map((c, i) => (
             <motion.article key={c.title} initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-60px' }} transition={{ delay: i * 0.09, duration: 0.55 }}

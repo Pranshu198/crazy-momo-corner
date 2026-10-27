@@ -26,7 +26,7 @@ export default function Gallery() {
     <section id="gallery" className="py-14 sm:py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="font-heading text-xs tracking-[0.3em] mut" data-reveal>10 — GALLERY</div>
-        <h2 className="font-display uppercase text-[clamp(2.4rem,7vw,4.6rem)] leading-[0.95] mt-2" data-clip>Dekho, <span className="font-accent normal-case grad-text text-[1.12em]">lalchao</span>, order karo</h2>
+        <h2 className="font-display uppercase text-[clamp(2.4rem,7vw,4.6rem)] leading-[0.95] mt-2 text-3d" data-clip>Dekho, <span className="font-accent normal-case text-script-3d text-[1.12em]">lalchao</span>, order karo</h2>
         <div className="grid grid-cols-2 md:grid-cols-4 auto-rows-[150px] sm:auto-rows-[185px] gap-3.5 mt-10 [grid-auto-flow:dense]">
           {PHOTOS.map((p, i) => (
             <motion.button key={p.src} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: '-40px' }} transition={{ delay: (i % 4) * 0.07, duration: 0.5 }}

@@ -7,7 +7,7 @@ gsap.registerPlugin(ScrollTrigger)
 const WORDS: { t: string; cls: string }[] = [
   { t: 'FREE', cls: 'grad-text' },
   { t: 'HOME', cls: 'sticker -rotate-2 px-3 sm:px-4' },
-  { t: 'DELIVERY', cls: '' },
+  { t: 'Delivery', cls: 'font-accent normal-case text-script-3d px-2' },
   { t: 'UPTO', cls: 'opacity-70' },
   { t: '1 KM', cls: 'text-[#FFB400]' },
   { t: 'ON', cls: 'opacity-70' },
@@ -57,8 +57,8 @@ function ScooterSVG() {
       <rect x="24" y="34" width="80" height="68" rx="11" fill="#FF8A00" stroke="#141414" strokeWidth="3.5" />
       <circle cx="64" cy="52" r="7.5" fill="#FFF8F0" stroke="#141414" strokeWidth="2" />
       <path d="M58 50 q2 -5 4 0 M62 50 q2 -5 4 0 M66 50 q2 -5 4 0" fill="none" stroke="#141414" strokeWidth="1.6" strokeLinecap="round" />
-      <text x="64" y="76" textAnchor="middle" fontFamily="Bricolage Grotesque, sans-serif" fontWeight="800" fontSize="13.5" fill="#141414">CRAZY</text>
-      <text x="64" y="92" textAnchor="middle" fontFamily="Bricolage Grotesque, sans-serif" fontWeight="800" fontSize="13.5" fill="#141414">MOMO</text>
+      <text x="64" y="76" textAnchor="middle" fontFamily="Titan One, sans-serif" fontWeight="800" fontSize="13.5" fill="#141414">CRAZY</text>
+      <text x="64" y="92" textAnchor="middle" fontFamily="Titan One, sans-serif" fontWeight="800" fontSize="13.5" fill="#141414">MOMO</text>
       {/* driver */}
       <path d="M150 110 L178 148 L200 148" fill="none" stroke="#2b3a55" strokeWidth="12" strokeLinecap="round" strokeLinejoin="round" />
       <path d="M134 50 Q164 42 172 72 L166 108 L130 106 Q122 70 134 50 Z" fill="#FFC400" />
@@ -98,7 +98,7 @@ export default function DeliveryScooter() {
     <section id="delivery" ref={secRef} className="relative py-16 sm:py-24 surface border-y line overflow-hidden">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 text-center relative z-10">
         <div className="font-heading text-xs tracking-[0.3em] mut" data-reveal>FREE DELIVERY — SCROLL KARO, SCOOTY AAYEGI</div>
-        <h2 className="font-display uppercase leading-[1.04] mt-5 text-[clamp(1.85rem,7.2vw,4.4rem)]" aria-label="Free home delivery upto 1 KM on orders above 200 rupees">
+        <h2 className="font-display uppercase leading-[1.04] mt-5 text-[clamp(1.85rem,7.2vw,4.4rem)] text-3d" aria-label="Free home delivery upto 1 KM on orders above 200 rupees">
           {WORDS.map((w, i) => (
             <span key={i} className={`dlv-word inline-block will-change-transform mx-1 sm:mx-1.5 my-1 ${w.cls}`} aria-hidden>{w.t}</span>
           ))}

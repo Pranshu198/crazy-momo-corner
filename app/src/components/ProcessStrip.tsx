@@ -38,7 +38,7 @@ export default function ProcessStrip() {
       <div className="absolute top-1/2 -translate-y-1/2 left-0 font-display outline-text text-[clamp(6rem,18vw,15rem)] leading-none opacity-40 pointer-events-none select-none whitespace-nowrap" data-parallax="6" aria-hidden>SIZZLE</div>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 w-full relative">
         <div className="font-heading text-xs tracking-[0.3em] mut" data-reveal>PROCESS</div>
-        <h3 className="font-display uppercase text-[clamp(2rem,6vw,4rem)] leading-none mt-2" data-clip>From Steam <span className="grad-text">to Sizzle</span></h3>
+        <h3 className="font-display uppercase text-[clamp(2rem,6vw,4rem)] leading-none mt-2 text-3d" data-clip>From Steam <span className="grad-text">to Sizzle</span></h3>
         <p className="mut mt-3 max-w-md hidden lg:block">Scroll karte jao — plate tak ka safar, side me khisakta hua.</p>
       </div>
       <div className="overflow-x-auto lg:overflow-visible mt-8 lg:mt-12" style={{ scrollbarWidth: 'none' }}>

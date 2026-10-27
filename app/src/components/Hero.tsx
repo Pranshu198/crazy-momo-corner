@@ -4,6 +4,7 @@ import { ChevronDown, Clock, MapPin, Star } from 'lucide-react'
 import { MENU, SIGNATURES } from '../data/menu'
 import { SITE, waLink } from '../data/site'
 import TypingText from './TypingText'
+import Doodles from './Doodles'
 
 const DishScene = lazy(() => import('./DishViewer360').then(m => ({ default: m.DishScene })))
 
@@ -44,18 +45,18 @@ export default function Hero() {
             <span className="sticker sticker-gold rotate-1 flex items-center gap-1.5 text-xs tracking-wider px-3.5 py-1.5"><MapPin size={13} className="text-[#FF3B30]" /> Uttam Nagar</span>
             <span className="sticker -rotate-1 flex items-center gap-1.5 text-xs tracking-wider px-3.5 py-1.5"><Clock size={13} className="text-[#FF8A00]" /> Till 11 PM</span>
           </motion.div>
-          <h1 aria-label="Crazy Momo Corner" className="font-display uppercase leading-[0.95] mt-6 text-[clamp(3rem,11.5vw,7.2rem)]">
-            <span className="block">
+          <div className="relative"><Doodles variant="hero" /><h1 aria-label="Crazy Momo Corner" className="font-display uppercase leading-[0.95] mt-6 text-[clamp(3rem,11.5vw,7.2rem)]">
+            <span className="block text-3d text-3d-gold">
               <FunkyWord word="CRAZY" delay={0.2} />{' '}
-              <span className="font-accent normal-case grad-text inline-block -rotate-3 text-[0.92em] translate-y-1">wale</span>
+              <span className="font-accent normal-case text-script-3d inline-block -rotate-3 text-[0.95em] translate-y-1 px-2">wale</span>
             </span>
-            <span className="block outline-word -rotate-1 origin-left scale-[1.02]"><FunkyWord word="MOMO" delay={0.5} /></span>
+            <span className="block text-3d text-3d-orange -rotate-1 origin-left scale-[1.02]"><FunkyWord word="MOMO" delay={0.5} /></span>
             <motion.span initial={{ opacity: 0, scale: 0.5, rotate: -10 }} animate={{ opacity: 1, scale: 1, rotate: 1.5 }} transition={{ delay: 0.85, type: 'spring', stiffness: 260, damping: 12 }}
               className="inline-block grad-bg text-white rounded-[22px] px-4 sm:px-6 pb-2 mt-2 shadow-hard-ink" aria-hidden>CORNER</motion.span>
-          </h1>
+          </h1></div>
           <div className="font-display uppercase text-[clamp(1.3rem,4.5vw,2.2rem)] mt-5 h-[1.3em]"><TypingText /></div>
           <motion.p initial={{ opacity: 0, scale: 0.6, rotate: 4 }} animate={{ opacity: 1, scale: 1, rotate: -2.5 }} transition={{ delay: 1.15, type: 'spring', stiffness: 300, damping: 13 }}
-            className="sticker sticker-gold inline-block text-sm sm:text-base px-4 py-2 mt-3">Momos itne crazy, diet bhi confuse!</motion.p>
+            className="text-script-3d inline-block text-[1.55rem] sm:text-3xl px-3 mt-5 leading-snug">Momos itne crazy, diet bhi confuse!</motion.p>
           <p className="font-accent text-2xl sm:text-3xl text-[#FF8A00] mt-4">{SITE.tagline}</p>
           <p className="mut mt-3 max-w-md">{SITE.freeDelivery}. Steam se kurkure tak — har plate fresh, garam aur loaded.</p>
           <div className="flex flex-wrap gap-3 mt-7">

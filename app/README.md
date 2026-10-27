@@ -41,3 +41,10 @@ Default AMOLED black. Navbar ke sun/moon button se light theme. Choice browser m
 - Signature 360 dishes (6): Veg Steam, Paneer Fried, Paneer Kurkure, Cheese & Corn Gravy, Liquid Cheese Potato Twister, Kurkure Spring Roll.
 - 3D food textures `src/three/textures.ts` (texture pack) me hain — dough / kurkure / fried / gravy / cheese.
 - Menu Wall ke baad "Delivery Scooter" scroll section hai (`src/components/DeliveryScooter.tsx`) — Free Home Delivery upto 1 KM, orders above ₹200.
+
+## Fonts & Type Styles (Round 4)
+- **Display (chunky, "Tako" style):** Titan One — hero headline, section titles, Menu Wall chapters, builder headings. Single weight (400) by design.
+- **Script accent ("Spicy" retro style):** Lobster — accent words, `.text-script-3d` utility (white outline + dark red extrusion) in `src/index.css`.
+- **3D block effect ("FOOD" style):** `.text-3d` + `.text-3d-gold/orange/red/cream` utilities in `src/index.css` — layered text-shadow extrusion; colours theme-aware via `--extr-*` CSS vars.
+- **Body/UI:** Manrope (400/600/800). Bricolage Grotesque aur Caveat hata diye gaye hain.
+- Line doodles (chilli, star, swirl, fork, steam, leaf): `src/components/Doodles.tsx`.

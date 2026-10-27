@@ -23,7 +23,7 @@ const cache = new Map<TexKind, FoodTex>()
 
 const BASE: Record<TexKind, string> = {
   dough: '#f8eed4',    // soft warm cream dough
-  kurkure: '#d8541c',  // deep orange-red masala crunch
+  kurkure: '#c96a12',  // real photo match — deep golden-orange cornflake crust (d97c1e–b85c00)
   fried: '#eda62b',    // vivid golden blistered
   gravy: '#e8641c',    // glossy rich orange sauce
   cheese: '#ffb400',   // saturated liquid-cheese yellow
@@ -120,8 +120,23 @@ function makeKurkure(): FoodTex {
     rx.fillStyle = '#ffffff'; rx.globalAlpha = rnd(0.2, 0.5)
     rx.beginPath(); rx.arc(px, py, pr, 0, 7); rx.fill()
   }
+  // CORNFLAKE FLAKES — bade, dikhne wale flakes jaise asli photo me (light golden highlights + dark base edge)
+  for (let i = 0; i < 850; i++) {
+    const px = rnd(0, S), py = rnd(0, S), len = rnd(10, 30), wid = len * rnd(0.35, 0.55), ang = rnd(0, Math.PI)
+    mx.save(); mx.translate(px, py); mx.rotate(ang)
+    mx.fillStyle = '#8a3e00'; mx.globalAlpha = rnd(0.35, 0.6) // flake ki shadow side
+    mx.beginPath(); mx.ellipse(1.5, 2, len / 2, wid / 2, 0, 0, 7); mx.fill()
+    mx.fillStyle = ['#f7b733', '#ffc95e', '#e8930c', '#d97c1e'][i % 4]; mx.globalAlpha = rnd(0.55, 0.95)
+    mx.beginPath(); mx.ellipse(0, 0, len / 2, wid / 2, 0, 0, 7); mx.fill()
+    mx.fillStyle = 'rgba(255,240,200,0.5)'; mx.globalAlpha = rnd(0.2, 0.45) // upar ki chamak
+    mx.beginPath(); mx.ellipse(-len * 0.12, -wid * 0.18, len / 3.2, wid / 3.4, 0, 0, 7); mx.fill()
+    mx.restore()
+    bx.save(); bx.translate(px, py); bx.rotate(ang)
+    bx.fillStyle = '#ffffff'; bx.globalAlpha = rnd(0.5, 0.95)
+    bx.beginPath(); bx.ellipse(0, 0, len / 2, wid / 2, 0, 0, 7); bx.fill(); bx.restore()
+  }
   mx.globalAlpha = 1; bx.globalAlpha = 1; rx.globalAlpha = 1
-  return finish(map, bump, rough, { roughness: 0.96, bumpScale: 0.6, envMapIntensity: 0.35 })
+  return finish(map, bump, rough, { roughness: 0.96, bumpScale: 0.72, envMapIntensity: 0.35 })
 }
 
 function makeFried(): FoodTex {

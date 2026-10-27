@@ -5,7 +5,7 @@ export default function VisitUs() {
     <section id="visit" className="py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="font-heading text-xs tracking-[0.3em] mut">13 — VISIT US</div>
-        <h2 className="font-display uppercase text-[clamp(2.2rem,6vw,4.2rem)] leading-none mt-2">Shop Par <span className="font-accent normal-case grad-text text-[1.15em]">aao na</span></h2>
+        <h2 className="font-display uppercase text-[clamp(2.2rem,6vw,4.2rem)] leading-none mt-2 text-3d">Shop Par <span className="font-accent normal-case text-script-3d text-[1.15em]">aao na</span></h2>
         <div className="grid lg:grid-cols-5 gap-6 mt-10">
           <div className="lg:col-span-2 surface border line rounded-[26px] p-6 sm:p-8 flex flex-col gap-5">
             <div className="flex gap-3.5">

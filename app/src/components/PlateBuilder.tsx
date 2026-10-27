@@ -33,7 +33,7 @@ function StepShell({ n, title, accent, children, done }: { n: number; title: str
     <motion.div initial={{ opacity: 0, y: 34 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -18 }} transition={{ duration: 0.4, ease: [0.22, 0.8, 0.3, 1] }} className="mt-10">
       <div className="flex items-center gap-3">
         <span className={`w-9 h-9 rounded-full grid place-items-center font-display text-sm shrink-0 ${done ? 'grad-bg text-white' : 'surface2 border line'}`}>{done ? <Check size={16} strokeWidth={3} /> : `0${n}`}</span>
-        <h3 className="font-display uppercase text-xl sm:text-2xl">{title} <span className="font-accent normal-case grad-text text-[1.1em]">{accent}</span></h3>
+        <h3 className="font-display uppercase text-xl sm:text-2xl">{title} <span className="font-accent normal-case text-script-3d text-[1.1em]">{accent}</span></h3>
         <span className="flex-1 h-px line border-t" aria-hidden />
       </div>
       <div className="mt-5">{children}</div>
@@ -94,7 +94,7 @@ export default function PlateBuilder() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 relative" ref={topRef}>
         <div className="text-center" data-reveal>
           <div className="font-heading text-xs tracking-[0.3em] mut">07 — BUILD YOUR PLATE</div>
-          <h2 className="font-display uppercase text-[clamp(2.6rem,8vw,5.6rem)] leading-[0.92] mt-2" data-clip>Apni Plate <span className="grad-text">Khud Banao</span></h2>
+          <h2 className="font-display uppercase text-[clamp(2.6rem,8vw,5.6rem)] leading-[0.92] mt-2 text-3d" data-clip>Apni Plate <span className="grad-text">Khud Banao</span></h2>
           <p className="font-accent text-2xl sm:text-3xl text-[#FF8A00] mt-2">step by step — category, variant, style, size… price live!</p>
         </div>
 

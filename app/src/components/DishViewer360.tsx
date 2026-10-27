@@ -251,7 +251,7 @@ export default function DishViewer360() {
           <div className="p-5 sm:p-8 max-w-3xl mx-auto w-full">
             <div className="flex items-start gap-3 flex-wrap">
               <span className="mt-2 w-4 h-4 shrink-0 rounded-[4px] border-2 border-[#22C55E] grid place-items-center" aria-label="Pure Veg"><span className="w-2 h-2 rounded-full bg-[#22C55E]" /></span>
-              <h3 className="font-display uppercase leading-none text-[clamp(2rem,7vw,4.2rem)] flex-1 min-w-[200px]">{dish.name}</h3>
+              <h3 className="font-display uppercase leading-none text-[clamp(2rem,7vw,4.2rem)] flex-1 min-w-[200px] text-3d">{dish.name}</h3>
               <div className="text-right">
                 <div className="font-display text-2xl grad-text">{dish.price === 'ADD_PRICE' ? '—' : `₹${dish.price}`}</div>
                 <div className="text-white/50 text-xs">{dish.price === 'ADD_PRICE' ? ADD_PRICE_LABEL : dish.fullPrice ? `Full plate ₹${dish.fullPrice}` : 'Half plate'}</div>

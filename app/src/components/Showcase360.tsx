@@ -38,7 +38,7 @@ export default function Showcase360() {
       <div className="font-display outline-text text-[clamp(4rem,12vw,8rem)] leading-none select-none" aria-hidden>0{idx + 1}</div>
       <AnimatePresence mode="wait">
         <motion.div key={dish.id} initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -18 }} transition={{ duration: 0.35 }}>
-          <h3 className="font-display uppercase text-[clamp(1.8rem,5vw,3.4rem)] leading-[0.95] mt-2">{dish.name}</h3>
+          <h3 className="font-display uppercase text-[clamp(1.8rem,5vw,3.4rem)] leading-[0.95] mt-2 text-3d">{dish.name}</h3>
           <div className="flex items-center gap-3 mt-3">
             <span className="grad-text font-display text-2xl">{priceLabel(dish)}</span>
             <span className="flex gap-0.5" aria-label={`Spice ${dish.spice}/3`}>{[0, 1, 2].map(i => <Flame key={i} size={16} className={i < dish.spice ? 'text-[#FF3B30]' : 'opacity-25'} fill={i < dish.spice ? '#FF3B30' : 'transparent'} />)}</span>
@@ -61,7 +61,7 @@ export default function Showcase360() {
     return (
       <section id="specials" className="py-14 overflow-hidden">
         <div className="max-w-7xl mx-auto px-4">
-          <h2 className="font-display uppercase text-[clamp(2.2rem,8vw,4.5rem)] leading-none">Hamare <span className="font-accent normal-case grad-text text-[1.15em]">crazy</span> 360° Specials</h2>
+          <h2 className="font-display uppercase text-[clamp(2.2rem,8vw,4.5rem)] leading-none text-3d">Hamare <span className="font-accent normal-case text-script-3d text-[1.15em]">crazy</span> 360° Specials</h2>
           <p className="mut mt-2">Side me swipe karo — har dish 3D me ghumti hui.</p>
         </div>
         <div className="flex gap-4 overflow-x-auto snap-x snap-mandatory px-4 pt-8 pb-4" style={{ scrollbarWidth: 'none' }}>
@@ -90,7 +90,7 @@ export default function Showcase360() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 grid lg:grid-cols-2 gap-8 items-center w-full">
           <div>
             <div className="font-heading text-xs tracking-[0.3em] mut">06 — SIGNATURE SHOWCASE</div>
-            <h2 className="font-display uppercase text-[clamp(2.2rem,6vw,4.2rem)] leading-none mt-2 mb-8">Hamare <span className="font-accent normal-case grad-text text-[1.15em]">crazy</span> specials</h2>
+            <h2 className="font-display uppercase text-[clamp(2.2rem,6vw,4.2rem)] leading-none mt-2 mb-8 text-3d">Hamare <span className="font-accent normal-case text-script-3d text-[1.15em]">crazy</span> specials</h2>
             {info}
           </div>
           <div className="h-[62svh] min-h-[380px] relative">

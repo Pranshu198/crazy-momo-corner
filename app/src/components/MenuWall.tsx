@@ -87,7 +87,7 @@ export default function MenuWall() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 relative">
         <div className="text-center" data-reveal>
           <div className="font-heading text-xs tracking-[0.3em] mut">08 — FULL MENU WALL</div>
-          <h2 className="font-display uppercase text-[clamp(2.6rem,8vw,5.6rem)] leading-[0.92] mt-2" data-clip>The Menu <span className="grad-text">Wall</span></h2>
+          <h2 className="font-display uppercase text-[clamp(2.6rem,8vw,5.6rem)] leading-[0.92] mt-2 text-3d" data-clip>The <span className="text-3d-gold">Menu</span> <span className="font-accent normal-case text-script-3d text-[1.05em] px-1">Wall</span></h2>
           <p className="font-accent text-2xl sm:text-3xl text-[#FF8A00] mt-2">sab kuch chap gaya hai — bas order karna baki hai</p>
           <p className="mut mt-3 flex items-center justify-center gap-2 text-sm"><Leaf size={15} className="text-[#22C55E]" /> 100% Pure Veg • Momos: Half = 5 Pcs, Full = 10 Pcs • Noodles & Chinese sirf delivery par</p>
         </div>
@@ -102,8 +102,8 @@ export default function MenuWall() {
                 <div className="flex items-end gap-4">
                   <span className="font-display outline-text text-[clamp(3.6rem,8vw,5.5rem)] leading-[0.8] select-none" aria-hidden>{String(ci + 1).padStart(2, '0')}</span>
                   <div>
-                    <h3 className="font-display uppercase text-2xl sm:text-[1.7rem] leading-[0.95]">{cat}</h3>
-                    <div className="font-accent text-xl grad-text leading-tight mt-1">{ACCENTS[cat] ?? 'full swad'}</div>
+                    <h3 className="font-display uppercase text-2xl sm:text-[1.7rem] leading-[0.95] text-3d">{cat}</h3>
+                    <div className="font-accent text-xl text-script-soft leading-tight mt-1">{ACCENTS[cat] ?? 'full swad'}</div>
                   </div>
                 </div>
                 <Tilt max={6} className="mt-5 hidden sm:block">
