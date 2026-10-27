@@ -6,7 +6,6 @@
   --font-display: "Titan One", "Arial Black", sans-serif;
   --font-heading: "Manrope", sans-serif;
   --font-body: "Manrope", sans-serif;
-  --font-accent: "Lobster", cursive;
   --color-heat: #FF3B30;
   --color-ember: #FF8A00;
   --color-veg: #22C55E;
@@ -14,8 +13,8 @@
   --color-cream: #FFF8F0;
 }
 
-:root { --extr-gold:#a85f00; --extr-orange:#9c4a00; --extr-red:#8f1d12; --extr-dark:#7c6a4d; --doodle:#14100C; --bg:#FFF8F0; --surface:#ffffff; --surface2:#f7ecdd; --line:rgba(20,16,12,.1); --txt:#14100C; --mut:rgba(20,16,12,.62); }
-.dark { --extr-gold:#6e4200; --extr-orange:#6e3200; --extr-red:#5f130b; --extr-dark:#000000; --doodle:#FFF3D6; --bg:#000000; --surface:#0A0A0A; --surface2:#111111; --line:rgba(255,255,255,.08); --txt:#ffffff; --mut:rgba(255,255,255,.62); }
+:root { --extr-gold:#a85f00; --extr-orange:#9c4a00; --extr-red:#8f1d12; --extr-dark:#7c6a4d; --bg:#FFF8F0; --surface:#ffffff; --surface2:#f7ecdd; --line:rgba(20,16,12,.1); --txt:#14100C; --mut:rgba(20,16,12,.62); }
+.dark { --extr-gold:#6e4200; --extr-orange:#6e3200; --extr-red:#5f130b; --extr-dark:#000000; --bg:#000000; --surface:#0A0A0A; --surface2:#111111; --line:rgba(255,255,255,.08); --txt:#ffffff; --mut:rgba(255,255,255,.62); }
 
 html { scroll-behavior:auto; }
 html.lenis, html.lenis body { height:auto; }
@@ -50,16 +49,9 @@ body { background:var(--bg); color:var(--txt); font-family:var(--font-body); tra
 /* Titan One — chunky rounded display (Tako style) */
 .font-display { letter-spacing:0.005em; font-weight:400; }
 .font-heading { letter-spacing:-0.01em; }
-/* Sticker badges — thick border + hard offset shadow, slight rotation */
-.sticker { border:2px solid var(--txt); box-shadow:4px 4px 0 #FF3B30; border-radius:999px; background:var(--surface); font-family:var(--font-heading); font-weight:700; }
-.sticker-gold { box-shadow:4px 4px 0 #d4af37; }
-.sticker-dark { background:#0A0A0A; color:#fff; border-color:#0A0A0A; box-shadow:4px 4px 0 #FF8A00; }
-.shadow-hard { box-shadow:6px 6px 0 #FF3B30; }
-.shadow-hard-gold { box-shadow:6px 6px 0 #d4af37; }
-.shadow-hard-ink { box-shadow:6px 6px 0 rgba(127,127,127,.55); }
 /* Playful hover — cards jump + tilt 1deg */
 .jump-hover { transition:transform .3s cubic-bezier(.34,1.56,.64,1), box-shadow .3s; }
-.jump-hover:hover { transform:translateY(-5px) rotate(1deg); }
+.jump-hover:hover { transform:translateY(-5px); }
 /* Angled section edges */
 .clip-slant { clip-path:polygon(0 22px, 100% 0, 100% calc(100% - 22px), 0 100%); }
 @media (max-width:640px){ .clip-slant { clip-path:polygon(0 12px, 100% 0, 100% calc(100% - 12px), 0 100%); } }
@@ -81,36 +73,27 @@ body { background:var(--bg); color:var(--txt); font-family:var(--font-body); tra
 .tilt-glare { position:absolute; inset:0; border-radius:inherit; pointer-events:none; opacity:0; transition:opacity .3s; background:radial-gradient(420px circle at var(--gx,50%) var(--gy,50%), rgba(255,255,255,.16), transparent 65%); z-index:3; }
 .tilt-wrap:hover .tilt-glare { opacity:1; }
 
-/* === 3D BLOCK TEXT (FOOD ref) — layered extrusion, theme-aware === */
-.text-3d { --extr:var(--extr-dark); text-shadow:1px 1px 0 var(--extr),2px 2px 0 var(--extr),3px 3px 0 var(--extr),4px 4px 0 var(--extr),5px 5px 0 var(--extr),6px 6px 0 var(--extr),7px 7px 0 var(--extr),8px 8px 0 var(--extr),14px 20px 26px rgba(0,0,0,.32); }
+/* === 3D BLOCK TEXT — clean, sirf hero + delivery words par (4-layer soft extrusion) === */
+.text-3d { --extr:var(--extr-dark); text-shadow:1px 1px 0 var(--extr),2px 2px 0 var(--extr),3px 3px 0 var(--extr),4px 4px 0 var(--extr),10px 14px 22px rgba(0,0,0,.25); }
 .text-3d-gold { color:#FFC400; --extr:var(--extr-gold); }
 .text-3d-orange { color:#FF7A00; --extr:var(--extr-orange); }
 .text-3d-red { color:#FF3B30; --extr:var(--extr-red); }
 .text-3d-cream { color:#FFF3D6; --extr:var(--extr-dark); }
-.dark .text-3d-cream { color:#FFF3D6; }
-/* === RETRO SCRIPT 3D (Spicy ref) — Lobster + white outline + dark extrusion === */
-.text-script-3d { font-family:var(--font-accent); color:#FF5A1F; -webkit-text-stroke:1.5px #fff;
-  text-shadow:-2px 0 0 #fff,2px 0 0 #fff,0 -2px 0 #fff,0 2px 0 #fff,-2px -2px 0 #fff,2px -2px 0 #fff,-2px 2px 0 #fff,2px 2px 0 #fff,
-  3px 3px 0 #8a2b0d,4px 4px 0 #8a2b0d,5px 5px 0 #7c240a,6px 6px 0 #6e1e08,10px 14px 20px rgba(0,0,0,.35); }
-.text-script-soft { font-family:var(--font-accent); color:#FF5A1F; text-shadow:2px 2px 0 #8a2b0d,3px 3px 0 #7c240a,6px 8px 14px rgba(0,0,0,.3); }
-/* Doodles */
-@keyframes doodlefloat { 0%,100%{ transform:translateY(0) rotate(var(--dr,0deg)) } 50%{ transform:translateY(-7px) rotate(calc(var(--dr,0deg) + 5deg)) } }
-.doodle { position:absolute; color:var(--doodle); opacity:.85; pointer-events:none; animation:doodlefloat 5s ease-in-out infinite; }
-@media (max-width:767px){ .doodle-half { display:none; } .text-3d { text-shadow:1px 1px 0 var(--extr),2px 2px 0 var(--extr),3px 3px 0 var(--extr),4px 4px 0 var(--extr),5px 5px 0 var(--extr),6px 6px 0 var(--extr),10px 14px 20px rgba(0,0,0,.3); } }
-/* GSAP reveal starting states are set from JS (no-JS safe) */
-[data-parallax] { will-change:transform; }
-/* Animated gradient glow blob */
-@keyframes glowdrift { 0%,100%{ transform:translate(0,0) scale(1) } 33%{ transform:translate(60px,-40px) scale(1.15) } 66%{ transform:translate(-50px,30px) scale(.92) } }
-.glow-drift { animation:glowdrift 14s ease-in-out infinite; }
-/* Side section indicator */
-.side-dot { transition:all .35s ease; }
-@media (pointer:coarse) { .custom-cursor { display:none !important; } }
-@media (prefers-reduced-motion: reduce) { .marquee-track,.floaty,.pulse-ring,.glow-drift,.road-dash,.speed-line { animation:none !important; } .tilt-inner { transform:none !important; } }
-@media (max-width:767px) {
-  .glow-follower { display:none !important; }
-  /* Mobile: marquee dheere, grain halka, kam visual noise */
-  .marquee-track { animation-duration:calc(var(--mq,26s) * 1.7); }
-  .road-dash { animation-duration:.8s; }
-}
 /* Global grain overlay — mobile par aur halka */
 @media (max-width:767px) { .grain-overlay { opacity:.3 !important; } }
+
+/* Delivery letters — smooth transform-only animation ke liye */
+.dlv-letter { backface-visibility:hidden; will-change:transform,opacity; }
+.dlv-pill { border:1.5px solid var(--line); background:var(--surface); border-radius:999px; padding:0.05em 0.45em; }
+@keyframes wheelspin { to { transform:rotate(360deg); } }
+.wheel-spin { animation:wheelspin 0.9s linear infinite; }
+/* Print — sirf menu wall saaf black-on-white */
+@media print {
+  body { background:#fff !important; }
+  body * { visibility:hidden !important; }
+  #menu, #menu * { visibility:visible !important; }
+  #menu { position:absolute !important; inset:0 auto auto 0 !important; width:100%; padding:0 !important; overflow:visible !important; background:#fff !important; }
+  #menu * { color:#000 !important; -webkit-text-stroke:0 !important; text-shadow:none !important; animation:none !important; }
+  #menu img, #menu .no-print { display:none !important; }
+  #menu .dot-leader { border-color:#999 !important; }
+}

@@ -48,3 +48,35 @@ Default AMOLED black. Navbar ke sun/moon button se light theme. Choice browser m
 - **3D block effect ("FOOD" style):** `.text-3d` + `.text-3d-gold/orange/red/cream` utilities in `src/index.css` — layered text-shadow extrusion; colours theme-aware via `--extr-*` CSS vars.
 - **Body/UI:** Manrope (400/600/800). Bricolage Grotesque aur Caveat hata diye gaye hain.
 - Line doodles (chilli, star, swirl, fork, steam, leaf): `src/components/Doodles.tsx`.
+
+## Owner Admin Panel — `/admin`
+Browser me site ke URL ke aakhir me `/admin` likho (jaise `https://pranshu198.github.io/crazy-momo-corner/admin/`). Public site par admin ka koi link/button nahi hai — sirf direct URL se khulta hai.
+**Abhi koi password nahi hai** (baad me lagega — `src/data/site.ts` me `ADMIN_PASSWORD` field ready hai).
+
+### Admin me kya-kya hai (7 tabs)
+1. **Dashboard** — menu items, sold-out, ADD_PRICE items, aaj ke orders + revenue ke stat cards, quick buttons.
+2. **Orders** — order inbox. Status workflow (New → Preparing → Ready → Delivered / Cancelled), naam/phone search, status filter, delete, delivered saaf, CSV export.
+3. **Menu Editor** — har dish ki Half/Full price (khaali = "shop par confirm"), Sold Out toggle, Visible toggle, tags, spice level, description.
+4. **Site Settings** — timing, phone, WhatsApp number, address, Instagram, marquee/announcement text, free-delivery threshold + radius, ntfy topic/server, extra order endpoint, SEO title/description, default theme.
+5. **Offers** — teeno offer cards ka text.
+6. **QR Studio** — site URL ka QR (256/512/1024 px), PNG download — counter par print karke lagane ke liye.
+7. **Data** — settings Export/Import JSON, Print Menu (site se), Danger-zone Reset.
+
+### Admin ki limits (zaroor padho)
+- Changes **sirf usi browser/device** ke localStorage me save hoti hain (key: `cmc_overrides`). Dusre phone par wahi changes nahi dikhengi.
+- **Sabke liye permanent** karni ho to: Data tab se **Export JSON** karke file developer ko bhej do — wahi values `src/data/menu.ts` / `site.ts` me daal di jayengi, phir build + deploy.
+- Sold Out wali dish par site par "Sold Out" badge aata hai aur Add band ho jata hai; Visible off wali dish site se gayab ho jati hai.
+
+## Orders kaise aate hain (WhatsApp + ntfy)
+Customer "Send Order on WhatsApp" dabata hai to teen kaam hote hain:
+1. **WhatsApp** par order message khulta hai (ye hamesha hota hai — pakka record).
+2. Order usi device ke localStorage (`cmc_orders`) me save hota hai — admin ke Orders tab me "Is device" badge ke saath dikhta hai.
+3. **ntfy push** — order `https://ntfy.sh` ke secret topic par POST hota hai.
+
+### ntfy setup (har device se order notification ke liye)
+1. Owner apne Android phone me free **ntfy app** install kare (Play Store).
+2. App me **Subscribe to topic** dabakar ye topic daale: `cmc-orders-w4mzmliynmpw`
+   - **Ye topic ek secret password jaisa hai** — jiske paas hoga, use saare orders dikhenge. Kisi ke saath share mat karo. Topic Admin → Site Settings se badla bhi ja sakta hai (naya topic daalo, app me naye topic par subscribe karo).
+3. Admin → Orders tab me **"Test Notification Bhejo"** dabakar test kar lo — phone par push aana chahiye.
+4. Admin ka Orders tab khulne par ntfy se pichle **24 ghante** ke orders auto-fetch hote hain ("ntfy live" badge). Dhyaan do: free ntfy.sh cache kuch ghanton ka hota hai — purane orders live sync se gayab ho sakte hain; WhatsApp + device-local list hi final record hai. Order ka status sirf usi device par save hota hai jahan change kiya.
+5. (Optional) `ORDER_ENDPOINT` (site.ts) ya Admin Settings ka endpoint field — FormSubmit jaisi email service ka AJAX URL daalne par orders wahan bhi POST hote hain. Khaali hai to sirf WhatsApp + ntfy + local kaam karta hai.

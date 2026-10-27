@@ -3,6 +3,10 @@ export interface Dish {
   id: string; name: string; category: string; veg: boolean;
   price: Price; fullPrice?: number; spice: 0|1|2|3;
   desc: string; tags?: string[]; img: string; signature?: boolean; color?: string;
+  /** Admin overrides se runtime par set hota hai */
+  soldOut?: boolean;
+  /** Price block labels (default HALF / FULL; pieces ke liye 1 PC / 2 PCS) */
+  halfLabel?: string; fullLabel?: string;
 }
 export const ADD_PRICE_LABEL = 'Price — shop par confirm karein'
 export const CATEGORIES = ['Steam Momos','Fried Momos','Kurkure Momos','Gravy Momos','Sides & Chinese','Soups & Beverages'] as const
@@ -29,10 +33,10 @@ export const MENU: Dish[] = [
   d({id:'gravy-paneer',name:'Paneer Gravy Momos',category:'Gravy Momos',veg:true,price:90,fullPrice:150,spice:3,desc:'Paneer momos makhani-masala gravy me.',img:'img/gravy.jpg'}),
   d({id:'gravy-cheese-corn',name:'Cheese & Corn Gravy Momos',category:'Gravy Momos',veg:true,price:100,fullPrice:170,spice:2,desc:'Creamy gravy + cheesy filling = crazy combo.',tags:['must-try'],img:'img/gravy.jpg',signature:true,color:'#e8641c'}),
   // SIDES & CHINESE (poster prices)
-  d({id:'twister',name:'Potato Twister',category:'Sides & Chinese',veg:true,price:40,spice:2,desc:'Spiral potato on stick — 1 Pc ₹40, 2 Pcs ₹70. Shop ki shaan!',tags:['bestseller'],img:'img/twister-nobg.webp'}),
-  d({id:'twister-kurkure',name:'Kurkure Potato Twister',category:'Sides & Chinese',veg:true,price:50,spice:2,desc:'Extra crunchy Kurkure style twister, upar se masala — 1 Pc ₹50, 2 Pcs ₹90.',img:'img/ktwister.webp',signature:true,color:'#d97c1e'}),
-  d({id:'springroll-noodles',name:'Noodles Spring Roll',category:'Sides & Chinese',veg:true,price:40,spice:1,desc:'Noodles bhara crispy roll — 1 Pc ₹40, 2 Pcs ₹70.',img:'img/springroll.webp'}),
-  d({id:'springroll-kurkure',name:'Kurkure Spring Roll',category:'Sides & Chinese',veg:true,price:50,spice:2,desc:'Extra crunchy Kurkure style roll, upar se masala — 1 Pc ₹50, 2 Pcs ₹90.',tags:['must-try'],img:'img/kspringroll.webp',signature:true,color:'#d97c1e'}),
+  d({id:'twister',name:'Potato Twister',category:'Sides & Chinese',veg:true,price:40,fullPrice:70,halfLabel:'1 PC',fullLabel:'2 PCS',spice:2,desc:'Spiral potato on stick — 1 Pc ₹40, 2 Pcs ₹70. Shop ki shaan!',tags:['bestseller'],img:'img/twister-nobg.webp'}),
+  d({id:'twister-kurkure',name:'Kurkure Potato Twister',category:'Sides & Chinese',veg:true,price:50,fullPrice:90,halfLabel:'1 PC',fullLabel:'2 PCS',spice:2,desc:'Extra crunchy Kurkure style twister, upar se masala — 1 Pc ₹50, 2 Pcs ₹90.',img:'img/ktwister.webp',signature:true,color:'#d97c1e'}),
+  d({id:'springroll-noodles',name:'Noodles Spring Roll',category:'Sides & Chinese',veg:true,price:40,fullPrice:70,halfLabel:'1 PC',fullLabel:'2 PCS',spice:1,desc:'Noodles bhara crispy roll — 1 Pc ₹40, 2 Pcs ₹70.',img:'img/springroll.webp'}),
+  d({id:'springroll-kurkure',name:'Kurkure Spring Roll',category:'Sides & Chinese',veg:true,price:50,fullPrice:90,halfLabel:'1 PC',fullLabel:'2 PCS',spice:2,desc:'Extra crunchy Kurkure style roll, upar se masala — 1 Pc ₹50, 2 Pcs ₹90.',tags:['must-try'],img:'img/kspringroll.webp',signature:true,color:'#d97c1e'}),
   d({id:'fries-salted',name:'Salted Fries',category:'Sides & Chinese',veg:true,price:40,fullPrice:70,spice:0,desc:'Classic golden fries, halka namak.',img:'img/fries.webp'}),
   d({id:'fries-peri',name:'Peri Peri Fries',category:'Sides & Chinese',veg:true,price:50,fullPrice:80,spice:3,desc:'Peri peri masala fries — teekha aur tangy.',img:'img/fries.webp'}),
   d({id:'noodles-chowmin',name:'Veg Chowmin',category:'Sides & Chinese',veg:true,price:60,fullPrice:100,spice:2,desc:'Sirf delivery ke liye — street style chowmin.',img:'img/noodles.webp'}),
@@ -49,7 +53,7 @@ export const MENU: Dish[] = [
 ]
 export const SIGNATURES = MENU.filter(m => m.signature)
 export const priceLabel = (dish: Dish) => dish.price === 'ADD_PRICE' ? ADD_PRICE_LABEL : `₹${dish.price}${dish.fullPrice ? ` / ₹${dish.fullPrice}` : ''}`
-export const dishById = (id: string) => MENU.find(m => m.id === id)
+export const dishById = (id: string, menu: Dish[] = MENU) => menu.find(m => m.id === id)
 
 // ---------- BUILD YOUR PLATE (saari prices poster matrix se, sirf yahi file se) ----------
 export interface BSize { label: string; sub?: string; price: Price }
@@ -80,7 +84,7 @@ export const MOMO_SIZES: BSize[] = [
   { label: 'Full Plate', sub: '10 Pcs', price: 0 },
 ]
 /** Momos price matrix — MENU dishes se live lookup (id = `${style}-${variant}`) */
-export const momoDish = (styleId: string, variantId: string) => MENU.find(m => m.id === `${styleId}-${variantId}`)
+export const momoDish = (styleId: string, variantId: string, menu: Dish[] = MENU) => menu.find(m => m.id === `${styleId}-${variantId}`)
 export interface PieceOption extends BOption { sizes: BSize[] }
 export const TWISTER_OPTIONS: PieceOption[] = [
   { id: 'twister', label: 'Plain Twister', desc: 'Classic spiral potato, upar se masala', img: 'img/twister-nobg.webp', sizes: [{ label: '1 Pc', price: 40 }, { label: '2 Pcs', price: 70 }] },
@@ -93,8 +97,8 @@ export const ROLL_OPTIONS: PieceOption[] = [
 export const CHINESE_IDS = ['noodles-chowmin', 'noodles-garlic', 'noodles-singapuri', 'noodles-hakka', 'chilli-potato', 'honey-chilli-potato', 'manchurian']
 export const FRIES_IDS = ['fries-salted', 'fries-peri']
 export const SOUP_IDS = ['soup-tomato', 'soup-mixveg']
-/** Kisi bhi MENU dish ke size options (Half/Full ya single serve) */
+/** Kisi bhi dish ke size options (Half/Full, 1 Pc/2 Pcs ya single serve) */
 export const dishSizes = (dish: Dish): BSize[] =>
   dish.fullPrice
-    ? [{ label: 'Half Plate', sub: dish.category.includes('Momos') ? '5 Pcs' : undefined, price: dish.price }, { label: 'Full Plate', sub: dish.category.includes('Momos') ? '10 Pcs' : undefined, price: dish.fullPrice }]
+    ? [{ label: dish.halfLabel ? '1 Pc' : 'Half Plate', sub: dish.category.includes('Momos') ? '5 Pcs' : undefined, price: dish.price }, { label: dish.halfLabel ? '2 Pcs' : 'Full Plate', sub: dish.category.includes('Momos') ? '10 Pcs' : undefined, price: dish.fullPrice }]
     : [{ label: dish.category === 'Soups & Beverages' ? '1 Glass' : '1 Serve', price: dish.price }]

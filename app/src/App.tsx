@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import Lenis from 'lenis'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -28,7 +28,7 @@ import InstagramSection from './components/InstagramSection'
 import Footer from './components/Footer'
 import FloatingButtons from './components/FloatingButtons'
 import CustomCursor from './components/CustomCursor'
-import { SITE } from './data/site'
+import AdminPanel from './components/AdminPanel'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -47,6 +47,7 @@ function Toast() {
 }
 
 function Shell() {
+  const { site } = useApp()
   const { scrollYProgress } = useScroll()
   const progress = useSpring(scrollYProgress, { stiffness: 120, damping: 26, mass: 0.4 })
   useEffect(() => {
@@ -85,6 +86,7 @@ function Shell() {
       })
     })
     const t = window.setTimeout(() => ScrollTrigger.refresh(), 2400)
+    if (document.fonts?.ready) document.fonts.ready.then(() => ScrollTrigger.refresh()).catch(() => { /* ignore */ })
     return () => { window.clearTimeout(t); ctx.revert() }
   }, [])
   // Magnetic buttons (desktop)
@@ -100,6 +102,14 @@ function Shell() {
     })
     return () => cleanups.forEach(c => c())
   }, [])
+  // SEO overrides (admin se set kiye ho to)
+  useEffect(() => {
+    if (site.seoTitle) document.title = site.seoTitle
+    if (site.seoDescription) {
+      const m = document.querySelector('meta[name="description"]')
+      if (m) m.setAttribute('content', site.seoDescription)
+    }
+  }, [site.seoTitle, site.seoDescription])
   return (
     <div className="min-h-screen">
       <motion.div style={{ scaleX: progress }} className="fixed top-0 left-0 right-0 h-[3px] grad-bg origin-left z-[96]" aria-hidden />
@@ -111,7 +121,7 @@ function Shell() {
       <Navbar />
       <div className="pt-[64px]">
         <div className="-rotate-2 -mx-4 grad-bg text-white py-2 shadow-lg relative z-20">
-          <Marquee items={`FRESH • HOT • STEAMED TO ORDER • UTTAM NAGAR • CALL ${SITE.phoneDisplay.replace('+91 ', '')} • FREE DELIVERY 1 KM (₹200+) • `} speed={22} className="text-[13px]" />
+          <Marquee items={site.marqueeText?.trim() || site.announcement?.trim() || `FRESH • HOT • STEAMED TO ORDER • UTTAM NAGAR • CALL ${site.phoneDisplay.replace('+91 ', '')} • FREE DELIVERY ${site.freeRadiusKm} KM (₹${site.freeThreshold}+) • `} speed={22} className="text-[13px]" />
         </div>
       </div>
       <main>
@@ -141,6 +151,20 @@ function Shell() {
   )
 }
 
+const isAdminPath = () =>
+  window.location.pathname.endsWith('/admin') || window.location.pathname.endsWith('/admin/') ||
+  window.location.hash.startsWith('#/admin')
+
+function Root() {
+  const [admin, setAdmin] = useState(isAdminPath)
+  useEffect(() => {
+    const onNav = () => setAdmin(isAdminPath())
+    window.addEventListener('popstate', onNav); window.addEventListener('hashchange', onNav)
+    return () => { window.removeEventListener('popstate', onNav); window.removeEventListener('hashchange', onNav) }
+  }, [])
+  return admin ? <AdminPanel /> : <Shell />
+}
+
 export default function App() {
-  return <AppProvider><Shell /></AppProvider>
+  return <AppProvider><Root /></AppProvider>
 }

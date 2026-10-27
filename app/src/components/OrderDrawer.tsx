@@ -1,15 +1,31 @@
+import { useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Minus, Phone, Plus, ShoppingBag, Trash2, X } from 'lucide-react'
 import { useApp } from '../context/AppContext'
-import { SITE, waLink } from '../data/site'
+import { NTFY_SERVER, NTFY_TOPIC, waLink } from '../data/site'
+import { postOrder, recordOrder, sendNtfyOrder } from '../data/orders'
 
 export default function OrderDrawer() {
-  const { drawerOpen, setDrawerOpen, order, setQty, clear } = useApp()
+  const { drawerOpen, setDrawerOpen, order, setQty, clear, site: SITE } = useApp()
+  const [custName, setCustName] = useState('')
+  const [custPhone, setCustPhone] = useState('')
   const allPriced = order.length > 0 && order.every(i => i.dish.price !== 'ADD_PRICE')
   const total = order.reduce((s, i) => s + (i.dish.price === 'ADD_PRICE' ? 0 : i.dish.price * i.qty), 0)
   const message = () => {
     const lines = order.map((i, n) => `${n + 1}. ${i.dish.name} x ${i.qty}${i.dish.price === 'ADD_PRICE' ? ' (price confirm kar dein)' : ` — ₹${(i.dish.price as number) * i.qty}`}`)
-    return `Hi Crazy Momo Corner! Mera order:\n${lines.join('\n')}\n${allPriced ? `Total: ₹${total}` : 'Total: shop par confirm hoga'}`
+    const who = custName.trim() ? `\nNaam: ${custName.trim()}${custPhone.trim() ? ` (${custPhone.trim()})` : ''}` : ''
+    return `Hi Crazy Momo Corner! Mera order:\n${lines.join('\n')}\n${allPriced ? `Total: ₹${total}` : 'Total: shop par confirm hoga'}${who}`
+  }
+  const sendOrder = () => {
+    const saved = recordOrder({
+      customerName: custName.trim(), customerPhone: custPhone.trim(),
+      items: order.map(i => ({ name: i.dish.name, qty: i.qty, price: i.dish.price })),
+      total: allPriced ? total : null,
+    })
+    /* Cross-device notification (ntfy) + optional extra endpoint — dono fire-and-forget */
+    sendNtfyOrder(saved, SITE.ntfyServer ?? NTFY_SERVER, SITE.ntfyTopic ?? NTFY_TOPIC)
+    postOrder(saved, SITE.orderEndpoint)
+    window.open(waLink(message(), SITE.whatsappBase), '_blank')
   }
   return (
     <AnimatePresence>
@@ -41,8 +57,12 @@ export default function OrderDrawer() {
             </div>
             {order.length > 0 && (
               <div className="p-5 border-t line space-y-3">
+                <div className="grid grid-cols-2 gap-2.5">
+                  <input value={custName} onChange={e => setCustName(e.target.value)} placeholder="Aapka naam (optional)" aria-label="Aapka naam" className="surface2 border line rounded-full px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-[#FF8A00]" />
+                  <input value={custPhone} onChange={e => setCustPhone(e.target.value)} placeholder="Phone (optional)" inputMode="tel" aria-label="Aapka phone number" className="surface2 border line rounded-full px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-[#FF8A00]" />
+                </div>
                 <div className="flex justify-between font-heading font-bold text-lg"><span>Total</span><span>{allPriced ? `₹${total}` : 'Shop par confirm hoga'}</span></div>
-                <a href={waLink(message())} target="_blank" rel="noreferrer" className="block text-center bg-[#25D366] text-[#04240f] font-bold rounded-full py-3.5 active:scale-[0.98] transition-transform">Send Order on WhatsApp</a>
+                <button onClick={sendOrder} className="block w-full text-center bg-[#25D366] text-[#04240f] font-bold rounded-full py-3.5 active:scale-[0.98] transition-transform">Send Order on WhatsApp</button>
                 <div className="flex gap-2">
                   <a href={SITE.phoneTel} className="flex-1 flex items-center justify-center gap-2 grad-bg text-white font-bold rounded-full py-3 active:scale-[0.98] transition-transform"><Phone size={16} /> Call to Order</a>
                   <button onClick={clear} className="flex items-center gap-2 rounded-full border line px-4 font-bold active:scale-95 transition-transform"><Trash2 size={16} /> Clear</button>

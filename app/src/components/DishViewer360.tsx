@@ -6,7 +6,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { Flame, Minus, Plus, Rotate3d, ShoppingBag, X } from 'lucide-react'
 import type { Dish } from '../data/menu'
 import { ADD_PRICE_LABEL } from '../data/menu'
-import { SITE, waLink } from '../data/site'
+import { waLink } from '../data/site'
 import { useApp } from '../context/AppContext'
 import { applyFoodTex, makeFoodTexture, type TexKind } from '../three/textures'
 
@@ -231,7 +231,7 @@ export function DishScene({ dish, height = '100%' }: { dish: Dish; height?: stri
 }
 
 export default function DishViewer360() {
-  const { viewerDish, setViewerDish, add } = useApp()
+  const { viewerDish, setViewerDish, add, site: SITE } = useApp()
   const [qty, setQty] = useState(1)
   const dish = viewerDish
   return (
@@ -246,7 +246,7 @@ export default function DishViewer360() {
           <div className="p-5 sm:p-8 max-w-3xl mx-auto w-full">
             <div className="flex items-start gap-3 flex-wrap">
               <span className="mt-2 w-4 h-4 shrink-0 rounded-[4px] border-2 border-[#22C55E] grid place-items-center" aria-label="Pure Veg"><span className="w-2 h-2 rounded-full bg-[#22C55E]" /></span>
-              <h3 className="font-display uppercase leading-none text-[clamp(2rem,7vw,4.2rem)] flex-1 min-w-[200px] text-3d">{dish.name}</h3>
+              <h3 className="font-display uppercase leading-none text-[clamp(2rem,7vw,4.2rem)] flex-1 min-w-[200px]">{dish.name}{dish.soldOut && <span className="ml-3 align-middle bg-[#FF3B30] text-white text-sm font-heading font-bold tracking-widest px-3 py-1.5 rounded-full">SOLD OUT</span>}</h3>
               <div className="text-right">
                 <div className="font-display text-2xl grad-text">{dish.price === 'ADD_PRICE' ? '—' : `₹${dish.price}`}</div>
                 <div className="text-white/50 text-xs">{dish.price === 'ADD_PRICE' ? ADD_PRICE_LABEL : dish.fullPrice ? `Full plate ₹${dish.fullPrice}` : 'Half plate'}</div>
@@ -263,8 +263,8 @@ export default function DishViewer360() {
                 <span className="font-display text-xl w-6 text-center" aria-live="polite">{qty}</span>
                 <button onClick={() => setQty(q => Math.min(20, q + 1))} aria-label="Quantity badhao" className="w-11 h-11 grid place-items-center rounded-full bg-white/10 active:scale-90"><Plus size={16} /></button>
               </div>
-              <button onClick={() => { add(dish, qty); setQty(1) }} className="flex items-center gap-2 rounded-full grad-bg text-black font-bold px-6 py-3 min-h-[48px] active:scale-95 transition"><ShoppingBag size={18} /> Add to Order List</button>
-              <a href={waLink(`Hi Crazy Momo Corner! Mujhe ${qty} x ${dish.name} order karna hai.`)} target="_blank" rel="noreferrer" className="rounded-full bg-[#25D366] text-[#04240f] font-bold px-6 py-3 min-h-[48px] inline-flex items-center active:scale-95 transition">Order on WhatsApp</a>
+              <button onClick={() => { add(dish, qty); setQty(1) }} disabled={dish.soldOut} className="flex items-center gap-2 rounded-full grad-bg text-black font-bold px-6 py-3 min-h-[48px] active:scale-95 transition disabled:opacity-40 disabled:pointer-events-none"><ShoppingBag size={18} /> {dish.soldOut ? "Sold Out hai" : "Add to Order List"}</button>
+              <a href={waLink(`Hi Crazy Momo Corner! Mujhe ${qty} x ${dish.name} order karna hai.`, SITE.whatsappBase)} target="_blank" rel="noreferrer" className="rounded-full bg-[#25D366] text-[#04240f] font-bold px-6 py-3 min-h-[48px] inline-flex items-center active:scale-95 transition">Order on WhatsApp</a>
               <span className="text-white/40 text-xs">{SITE.timingShort} • {SITE.phoneDisplay}</span>
             </div>
           </div>

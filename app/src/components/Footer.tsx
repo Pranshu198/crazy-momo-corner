@@ -1,7 +1,10 @@
-import { ArrowUp, Clock, Heart, MapPin, Phone } from 'lucide-react'
+import { ArrowUp, Clock, Heart, MapPin, Phone, Share2 } from 'lucide-react'
 import { CATEGORIES } from '../data/menu'
-import { SITE } from '../data/site'
+import { useApp } from '../context/AppContext'
+import { siteUrl } from './QrCodeCard'
 export default function Footer() {
+  const { site: SITE, notify } = useApp()
+  const share = async () => { const url = siteUrl(); try { if (navigator.share) { await navigator.share({ title: 'Crazy Momo Corner', text: 'Uttam Nagar ke sabse crazy momos!', url }); return } await navigator.clipboard.writeText(url); notify('Site ka link copy ho gaya!') } catch { /* cancelled */ } }
   const go = (h: string) => document.querySelector(h)?.scrollIntoView({ behavior: 'smooth' })
   return (
     <footer className="border-t line surface">
@@ -41,7 +44,7 @@ export default function Footer() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-5 flex flex-wrap items-center justify-between gap-3 text-xs mut">
           <span>© {new Date().getFullYear()} {SITE.name}. All rights reserved.</span>
           <span className="flex items-center gap-1.5">Made with <Heart size={13} className="text-[#FF3B30]" fill="#FF3B30" aria-label="love" /> in Uttam Nagar</span>
-          <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} aria-label="Upar jao" className="flex items-center gap-1.5 font-heading font-bold hover:text-[#FF8A00] transition-colors"><ArrowUp size={14} /> Back to Top</button>
+          <span className="flex items-center gap-4"><button onClick={share} className="flex items-center gap-1.5 font-heading font-bold hover:text-[#FF8A00] transition-colors"><Share2 size={14} /> Share</button><button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} aria-label="Upar jao" className="flex items-center gap-1.5 font-heading font-bold hover:text-[#FF8A00] transition-colors"><ArrowUp size={14} /> Back to Top</button></span>
         </div>
       </div>
     </footer>

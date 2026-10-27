@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { MessageCircle, Phone } from 'lucide-react'
-import { SITE } from '../data/site'
+import { useApp } from '../context/AppContext'
 export default function FloatingButtons() {
+  const { site: SITE } = useApp()
   const [show, setShow] = useState(false)
   useEffect(() => {
     const on = () => setShow(window.scrollY > 400)

@@ -1,7 +1,8 @@
 import { Camera } from 'lucide-react'
-import { SITE } from '../data/site'
+import { useApp } from '../context/AppContext'
 const TILES = ['img/steam.jpg', 'img/kurkure.jpg', 'img/twister-nobg.webp', 'img/ktwister.webp', 'img/gravy.jpg', 'img/kspringroll.webp']
 export default function InstagramSection() {
+  const { site: SITE } = useApp()
   return (
     <section aria-label="Instagram" className="py-14 sm:py-20 surface border-y line overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 text-center">

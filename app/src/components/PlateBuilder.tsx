@@ -33,7 +33,7 @@ function StepShell({ n, title, accent, children, done }: { n: number; title: str
     <motion.div initial={{ opacity: 0, y: 34 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -18 }} transition={{ duration: 0.4, ease: [0.22, 0.8, 0.3, 1] }} className="mt-10">
       <div className="flex items-center gap-3">
         <span className={`w-9 h-9 rounded-full grid place-items-center font-display text-sm shrink-0 ${done ? 'grad-bg text-white' : 'surface2 border line'}`}>{done ? <Check size={16} strokeWidth={3} /> : `0${n}`}</span>
-        <h3 className="font-display uppercase text-xl sm:text-2xl">{title} <span className="font-accent normal-case text-script-3d text-[1.1em]">{accent}</span></h3>
+        <h3 className="font-display uppercase text-xl sm:text-2xl">{title} <span className="grad-text">{accent}</span></h3>
         <span className="flex-1 h-px line border-t" aria-hidden />
       </div>
       <div className="mt-5">{children}</div>
@@ -42,7 +42,7 @@ function StepShell({ n, title, accent, children, done }: { n: number; title: str
 }
 
 export default function PlateBuilder() {
-  const { add, setDrawerOpen } = useApp()
+  const { add, setDrawerOpen, menu } = useApp()
   const [sel, setSel] = useState<Sel>(INIT)
   const topRef = useRef<HTMLDivElement>(null)
   const set = (p: Partial<Sel>) => setSel(s => ({ ...s, ...p }))
@@ -50,15 +50,15 @@ export default function PlateBuilder() {
   const isMomos = sel.cat === 'momos'
   const isPieces = sel.cat === 'twister' || sel.cat === 'rolls'
   const dishIds = sel.cat === 'chinese' ? CHINESE_IDS : sel.cat === 'fries' ? FRIES_IDS : sel.cat === 'soups' ? SOUP_IDS : []
-  const dishOptions: BOption[] = dishIds.map(id => { const d = dishById(id)!; return { id: d.id, label: d.name, desc: d.desc, img: d.img } })
-  const pieceOptions = sel.cat === 'twister' ? TWISTER_OPTIONS : ROLL_OPTIONS
+  const dishOptions: BOption[] = dishIds.map(id => dishById(id, menu)).filter((d): d is Dish => !!d && !d.soldOut).map(d => ({ id: d.id, label: d.name, desc: d.desc, img: d.img }))
+  const pieceOptions = (sel.cat === 'twister' ? TWISTER_OPTIONS : ROLL_OPTIONS).filter(o => { const d = dishById(o.id, menu); return !!d && !d.soldOut })
 
   const sizes: BSize[] = useMemo(() => {
-    if (isMomos && sel.variant && sel.style) { const d = momoDish(sel.style, sel.variant); return d ? [{ label: 'Half Plate', sub: '5 Pcs', price: d.price }, { label: 'Full Plate', sub: '10 Pcs', price: d.fullPrice ?? d.price }] : [] }
-    if (isPieces && sel.variant) { const o = pieceOptions.find(p => p.id === sel.variant); return o ? o.sizes : [] }
-    if (dishIds.length && sel.variant) { const d = dishById(sel.variant); return d ? dishSizes(d) : [] }
+    if (isMomos && sel.variant && sel.style) { const d = momoDish(sel.style, sel.variant, menu); return d ? [{ label: 'Half Plate', sub: '5 Pcs', price: d.price }, { label: 'Full Plate', sub: '10 Pcs', price: d.fullPrice ?? d.price }] : [] }
+    if (isPieces && sel.variant) { const d = dishById(sel.variant, menu); return d ? dishSizes(d) : [] }
+    if (dishIds.length && sel.variant) { const d = dishById(sel.variant, menu); return d ? dishSizes(d) : [] }
     return []
-  }, [isMomos, isPieces, sel.variant, sel.style, pieceOptions, dishIds.length])
+  }, [isMomos, isPieces, sel.variant, sel.style, pieceOptions, dishIds.length, menu])
 
   const needsStyle = isMomos
   const needsSize = !(sel.cat === 'soups')
@@ -68,7 +68,7 @@ export default function PlateBuilder() {
     if (!ready) return null
     const size = sizes[Math.min(sel.size, sizes.length - 1)]
     if (isMomos) {
-      const base = momoDish(sel.style!, sel.variant!)!
+      const base = momoDish(sel.style!, sel.variant!, menu)!
       const name = `${base.name} — ${size.label}${size.sub ? ` (${size.sub})` : ''}`
       return { dish: { ...base, id: `b-${base.id}-${sel.size}`, name, price: size.price }, unit: size.price, name, img: base.img }
     }
@@ -76,26 +76,27 @@ export default function PlateBuilder() {
       const o = pieceOptions.find(p => p.id === sel.variant)!
       const cheeseTxt = sel.cat === 'twister' && sel.cheese ? ' + Liquid Cheese Add-On' : ''
       const name = `${o.label} — ${size.label}${cheeseTxt}`
-      const base = dishById(o.id)
+      const base = dishById(o.id, menu)
       return { dish: { id: `b-${o.id}-${sel.size}${sel.cheese ? '-cheese' : ''}`, name, category: 'Build Your Plate', veg: true, price: size.price, spice: base?.spice ?? 2, desc: o.desc ?? '', img: o.img }, unit: size.price, name, img: o.img }
     }
-    const base = dishById(sel.variant!)!
+    const base = dishById(sel.variant!, menu)!
     const name = dishIds.length && sizes.length > 1 ? `${base.name} — ${size.label}` : base.name
     return { dish: { ...base, id: `b-${base.id}-${sel.size}`, name, price: size.price }, unit: size.price, name, img: base.img }
-  }, [ready, sizes, sel, isMomos, isPieces, pieceOptions, dishIds.length])
+  }, [ready, sizes, sel, isMomos, isPieces, pieceOptions, dishIds.length, menu])
 
+  const builtSoldOut = !!(isMomos && sel.variant && sel.style && momoDish(sel.style, sel.variant, menu)?.soldOut)
   const stepCount = !sel.cat ? 1 : isMomos ? 4 : isPieces ? 3 : sel.cat === 'soups' ? 2 : 3
   const currentStep = !sel.cat ? 1 : !sel.variant ? 2 : isMomos && !sel.style ? 3 : stepCount
   const reset = () => { setSel(INIT); topRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }) }
 
   return (
-    <section id="builder" className="relative py-14 sm:py-24 overflow-hidden">
+    <section id="builder" className="relative py-20 sm:py-28 overflow-hidden">
       <div className="absolute -top-24 right-0 w-[46vw] h-[46vw] max-w-[560px] max-h-[560px] rounded-full opacity-[0.13] blur-3xl grad-bg glow-drift pointer-events-none" aria-hidden />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 relative" ref={topRef}>
         <div className="text-center" data-reveal>
           <div className="font-heading text-xs tracking-[0.3em] mut">07 — BUILD YOUR PLATE</div>
-          <h2 className="font-display uppercase text-[clamp(2.6rem,8vw,5.6rem)] leading-[0.92] mt-2 text-3d" data-clip>Apni Plate <span className="grad-text">Khud Banao</span></h2>
-          <p className="font-accent text-2xl sm:text-3xl text-[#FF8A00] mt-2">step by step — category, variant, style, size… price live!</p>
+          <h2 className="font-display uppercase text-[clamp(2.6rem,8vw,5.6rem)] leading-[0.92] mt-2" data-clip>Apni Plate <span className="grad-text">Khud Banao</span></h2>
+          <p className="font-heading italic font-semibold text-xl sm:text-2xl text-[#FF8A00] mt-3">Step by step — category, variant, style, size… price live!</p>
         </div>
 
         {/* Progress */}
@@ -118,7 +119,7 @@ export default function PlateBuilder() {
                     <span className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent" aria-hidden />
                     <span className="absolute bottom-3 left-4 right-4 text-white">
                       <span className="block font-display uppercase text-lg sm:text-2xl leading-none">{c.label}</span>
-                      <span className="block font-accent text-[#FFB25E] text-lg leading-tight">{c.accent}</span>
+                      <span className="block font-heading italic font-semibold text-[#FFB25E] text-base leading-tight">{c.accent}</span>
                     </span>
                     {sel.cat === c.id && <span className="absolute top-3 right-3 w-7 h-7 rounded-full grad-bg text-white grid place-items-center shadow-lg"><Check size={15} strokeWidth={3.5} /></span>}
                   </div>
@@ -177,7 +178,7 @@ export default function PlateBuilder() {
                 </div>
                 <div className="p-5 sm:p-7">
                   <div className="font-heading text-[11px] tracking-[0.28em] mut">STEP {stepCount} — QUANTITY & PRICE</div>
-                  <h3 className="font-display uppercase text-2xl sm:text-3xl leading-tight mt-1.5">{built.name}</h3>
+                  <h3 className="font-display uppercase text-2xl sm:text-3xl leading-tight mt-1.5">{built.name}{builtSoldOut && <span className="ml-3 align-middle bg-[#FF3B30] text-white text-xs font-heading font-bold tracking-widest px-2.5 py-1 rounded-full">SOLD OUT</span>}</h3>
                   {needsSize && (
                     <div className="flex flex-wrap gap-2.5 mt-4" role="radiogroup" aria-label="Plate size">
                       {sizes.map((s, i) => (
@@ -206,7 +207,7 @@ export default function PlateBuilder() {
                     </div>
                     <div className="flex gap-2.5 ml-auto">
                       <button onClick={reset} className="flex items-center gap-2 rounded-full border line px-4 py-3 font-bold text-sm active:scale-95 transition-transform"><RotateCcw size={15} /> Change</button>
-                      <button onClick={() => { add(built.dish, sel.qty); setDrawerOpen(true) }} className="flex items-center gap-2 grad-bg text-white font-bold rounded-full px-6 py-3 shadow-xl active:scale-95 transition-transform"><ShoppingBag size={17} /> Add to Order</button>
+                      <button onClick={() => { add(built.dish, sel.qty); setDrawerOpen(true) }} disabled={builtSoldOut} className="flex items-center gap-2 grad-bg text-white font-bold rounded-full px-6 py-3 shadow-xl active:scale-95 transition-transform disabled:opacity-40 disabled:pointer-events-none"><ShoppingBag size={17} /> {builtSoldOut ? 'Sold Out' : 'Add to Order'}</button>
                     </div>
                   </div>
                 </div>
@@ -224,7 +225,7 @@ export default function PlateBuilder() {
                 <div className="font-heading font-bold text-[13px] leading-tight truncate">{built.name}</div>
                 <div className="font-display grad-text text-xl leading-none mt-1">{built.unit === 'ADD_PRICE' ? 'Confirm @ Shop' : `₹${(built.unit as number) * sel.qty}`}</div>
               </div>
-              <button onClick={() => { add(built.dish, sel.qty); setDrawerOpen(true) }} className="grad-bg text-white font-bold rounded-full px-6 min-h-[48px] flex items-center gap-2 active:scale-95 shrink-0 shadow-xl"><ShoppingBag size={17} /> Add</button>
+              <button onClick={() => { add(built.dish, sel.qty); setDrawerOpen(true) }} disabled={builtSoldOut} className="grad-bg text-white font-bold rounded-full px-6 min-h-[48px] flex items-center gap-2 active:scale-95 shrink-0 shadow-xl disabled:opacity-40"><ShoppingBag size={17} /> {builtSoldOut ? 'Sold Out' : 'Add'}</button>
             </motion.div>
           )}
         </AnimatePresence>

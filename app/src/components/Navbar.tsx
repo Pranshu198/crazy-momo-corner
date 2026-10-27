@@ -1,17 +1,16 @@
 import { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Menu as MenuIcon, Phone, ShoppingBag, X } from 'lucide-react'
-import { SITE } from '../data/site'
 import { useApp } from '../context/AppContext'
 import ThemeToggle from './ThemeToggle'
 
-const LINKS = [['Home', '#home'], ['Free Delivery', '#delivery'], ['360° Specials', '#specials'], ['Build Your Plate', '#builder'], ['Menu', '#menu'], ['Why Us', '#why'], ['Gallery', '#gallery'], ['Reviews', '#reviews'], ['Visit Us', '#visit']] as const
+const LINKS = [['Menu', '#menu'], ['Build Your Plate', '#builder'], ['Free Delivery', '#delivery'], ['Gallery', '#gallery'], ['Visit Us', '#visit']] as const
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
-  const [active, setActive] = useState('home')
-  const { count, setDrawerOpen } = useApp()
+  const [active, setActive] = useState('menu')
+  const { count, setDrawerOpen, site } = useApp()
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 30)
     window.addEventListener('scroll', onScroll, { passive: true }); onScroll()
@@ -22,16 +21,13 @@ export default function Navbar() {
   const go = (h: string) => { setOpen(false); document.querySelector(h)?.scrollIntoView({ behavior: 'smooth' }) }
   return (
     <>
-      <header className={`fixed top-0 inset-x-0 z-[70] glass border-b line transition-all ${scrolled ? 'py-2 shadow-lg' : 'py-3.5'}`}>
+      <header className={`fixed top-0 inset-x-0 z-[70] glass border-b line transition-all ${scrolled ? 'py-1.5 shadow-md' : 'py-2.5'}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center gap-3">
           <button onClick={() => go('#home')} className="flex items-center gap-2.5 text-left" aria-label="Crazy Momo Corner — home">
-            <span className="w-10 h-10 rounded-2xl overflow-hidden bg-black ring-1 ring-black/20 shrink-0 shadow-lg"><img src={`${import.meta.env.BASE_URL}img/logo-mascot.webp`} alt="Crazy Momo Corner logo — crazy momo mascot" className="w-full h-full object-cover" /></span>
-            <span className="leading-none">
-              <span className="block font-display uppercase tracking-wide text-lg sm:text-xl">Crazy <span className="grad-text">Momo</span> Corner</span>
-              <span className="block text-[10px] tracking-[0.28em] mut font-heading mt-0.5">PURE VEG • UTTAM NAGAR</span>
-            </span>
+            <span className="w-9 h-9 rounded-xl overflow-hidden bg-black ring-1 ring-black/20 shrink-0"><img src={`${import.meta.env.BASE_URL}img/logo-mascot.webp`} alt="Crazy Momo Corner logo — crazy momo mascot" className="w-full h-full object-cover" /></span>
+            <span className="font-display uppercase tracking-wide text-lg sm:text-xl leading-none">Crazy <span className="grad-text">Momo</span> Corner</span>
           </button>
-          <nav className="hidden lg:flex items-center gap-6 ml-auto font-heading text-sm" aria-label="Main">
+          <nav className="hidden lg:flex items-center gap-7 ml-auto font-heading font-semibold text-sm" aria-label="Main">
             {LINKS.map(([label, h]) => (
               <button key={h} onClick={() => go(h)} className={`relative py-1 hover:text-[#FF8A00] transition-colors ${active === h.slice(1) ? 'text-[#FF8A00]' : ''}`}>
                 {label}
@@ -39,13 +35,13 @@ export default function Navbar() {
               </button>
             ))}
           </nav>
-          <div className="flex items-center gap-2 ml-auto lg:ml-4">
+          <div className="flex items-center gap-2 ml-auto lg:ml-5">
             <ThemeToggle />
             <button onClick={() => setDrawerOpen(true)} aria-label="Order list kholo" className="relative w-10 h-10 grid place-items-center rounded-full border line surface hover:scale-110 active:scale-95 transition-transform">
               <ShoppingBag size={18} />
               {count > 0 && <span className="absolute -top-1 -right-1 min-w-5 h-5 px-1 rounded-full grad-bg text-white text-[11px] font-bold grid place-items-center">{count}</span>}
             </button>
-            <a href={SITE.phoneTel} data-magnetic className="hidden sm:flex items-center gap-2 grad-bg text-white font-bold rounded-full px-5 py-2.5 text-sm shadow-lg active:scale-95 transition-transform"><Phone size={16} /> Order Now</a>
+            <a href={site.phoneTel} data-magnetic className="hidden sm:flex items-center gap-2 grad-bg text-white font-bold rounded-full px-5 py-2.5 text-sm shadow-md active:scale-95 transition-transform"><Phone size={16} /> Order Now</a>
             <button onClick={() => setOpen(true)} aria-label="Menu kholo" className="lg:hidden w-10 h-10 grid place-items-center rounded-full border line surface"><MenuIcon size={19} /></button>
           </div>
         </div>
@@ -58,11 +54,11 @@ export default function Navbar() {
               <button onClick={() => setOpen(false)} aria-label="Menu band karo" className="w-11 h-11 grid place-items-center rounded-full bg-white/10"><X /></button>
             </div>
             <nav className="flex-1 flex flex-col justify-center gap-2" aria-label="Mobile">
-              {LINKS.map(([label, h], i) => (
+              {[['Home', '#home'], ...LINKS].map(([label, h], i) => (
                 <motion.button key={h} initial={{ x: -32, opacity: 0 }} animate={{ x: 0, opacity: 1 }} transition={{ delay: 0.06 * i }} onClick={() => go(h)} className="text-left font-display uppercase text-4xl py-2 hover:text-[#FF8A00] transition-colors">{label}</motion.button>
               ))}
             </nav>
-            <a href={SITE.phoneTel} className="grad-bg text-white text-center font-bold rounded-full py-4 text-lg">Call — {SITE.phoneDisplay}</a>
+            <a href={site.phoneTel} className="grad-bg text-white text-center font-bold rounded-full py-4 text-lg">Call — {site.phoneDisplay}</a>
           </motion.div>
         )}
       </AnimatePresence>

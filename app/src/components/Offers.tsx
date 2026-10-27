@@ -1,11 +1,13 @@
 import { motion } from 'framer-motion'
+import { useApp } from '../context/AppContext'
 import { BadgePercent, Info } from 'lucide-react'
-import { SITE } from '../data/site'
+
 export default function Offers() {
+  const { site: SITE } = useApp()
   return (
     <section aria-label="Offers" className="py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <h2 className="font-display uppercase text-[clamp(2rem,5.5vw,3.6rem)] leading-none text-3d">Aaj ke <span className="font-accent normal-case text-script-3d text-[1.12em] px-1">Offers</span></h2>
+        <h2 className="font-display uppercase text-[clamp(2rem,5.5vw,3.6rem)] leading-none">Aaj ke <span className="grad-text">Offers</span></h2>
         <div className="grid sm:grid-cols-3 gap-5 mt-8">
           {SITE.offers.map((o, i) => (
             <motion.article key={o.title} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}

@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { SITE, } from '../data/site'
-import { MENU } from '../data/menu'
+import { useApp } from '../context/AppContext'
 
 function Counter({ to, suffix = '', decimals = 0 }: { to: number; suffix?: string; decimals?: number }) {
   const ref = useRef<HTMLSpanElement>(null); const [val, setVal] = useState(0)
@@ -18,6 +17,7 @@ function Counter({ to, suffix = '', decimals = 0 }: { to: number; suffix?: strin
 }
 
 export default function Stats() {
+  const { site: SITE, menu: MENU } = useApp()
   const stats = [
     { v: <Counter to={SITE.rating} decimals={1} />, label: 'Justdial Rating' },
     { v: <Counter to={SITE.ratingCount} suffix="+" />, label: 'Happy Ratings' },

@@ -1,5 +1,6 @@
 import { Star } from 'lucide-react'
-import { SITE } from '../data/site'
+import { useApp } from '../context/AppContext'
+
 import Marquee from './Marquee'
 
 const REVIEWS = [
@@ -23,13 +24,14 @@ function Card({ r }: { r: (typeof REVIEWS)[number] }) {
   )
 }
 export default function Reviews() {
+  const { site: SITE } = useApp()
   const row = [...REVIEWS, ...REVIEWS]
   return (
     <section id="reviews" className="py-20 surface border-y line overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 text-center">
         <div className="flex justify-center gap-1" aria-hidden>{[0, 1, 2, 3, 4].map(i => <Star key={i} size={26} className="text-[#FF8A00]" fill="#FF8A00" />)}</div>
-        <h2 className="font-display uppercase text-[clamp(2.4rem,7vw,4.8rem)] leading-none mt-3 text-3d">{SITE.rating.toFixed(1)} — {SITE.ratingCount} Ratings</h2>
-        <p className="mut mt-2">Justdial par log kya keh rahe hain — <span className="font-accent text-xl text-script-soft">sach me crazy swad</span></p>
+        <h2 className="font-display uppercase text-[clamp(2.4rem,7vw,4.8rem)] leading-none mt-3">{SITE.rating.toFixed(1)} — {SITE.ratingCount} Ratings</h2>
+        <p className="mut mt-2">Justdial par log kya keh rahe hain — <span className="font-heading italic font-semibold text-[#FF8A00]">sach me crazy swad</span></p>
       </div>
       <div className="marquee-paused mt-10 overflow-hidden" aria-label="Customer reviews">
         <div className="marquee-track py-2" style={{ ['--mq' as string]: '55s' }}>
