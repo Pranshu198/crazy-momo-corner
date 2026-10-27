@@ -37,8 +37,8 @@ Signature dishes (menu.ts me `signature: true`) par Three.js ka real 3D scene kh
 Default AMOLED black. Navbar ke sun/moon button se light theme. Choice browser me save hoti hai.
 
 ## Round 3 notes (menu purity)
-- Site par SIRF poster-menu ki items hain — Steam/Fried/Kurkure/Gravy Momos (Veg/Soya/Paneer/Cheese & Corn), Twisters (Plain/Kurkure/Liquid Cheese), Spring Rolls, Fries, Soups, delivery-only Noodles, Chilli Potato, Veg Manchurian, Cold Drink.
-- Signature 360 dishes (6): Veg Steam, Paneer Fried, Paneer Kurkure, Cheese & Corn Gravy, Liquid Cheese Potato Twister, Kurkure Spring Roll.
+- Site par SIRF poster-menu ki items hain — Steam/Fried/Kurkure/Gravy Momos (Veg/Soya/Paneer/Cheese & Corn), Twisters (Plain/Kurkure — liquid cheese sirf add-on topping hai, alag dish nahi), Spring Rolls, Fries, Soups, delivery-only Noodles, Chilli Potato, Veg Manchurian, Cold Drink.
+- Signature 360 dishes (6): Veg Steam, Paneer Fried, Paneer Kurkure, Cheese & Corn Gravy, Kurkure Potato Twister, Kurkure Spring Roll.
 - 3D food textures `src/three/textures.ts` (texture pack) me hain — dough / kurkure / fried / gravy / cheese.
 - Menu Wall ke baad "Delivery Scooter" scroll section hai (`src/components/DeliveryScooter.tsx`) — Free Home Delivery upto 1 KM, orders above ₹200.
 

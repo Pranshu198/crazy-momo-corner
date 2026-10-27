@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 
 const SECTIONS = [
-  ['home', 'Home'], ['specials', '360° Specials'], ['builder', 'Build Your Plate'], ['menu', 'Menu Wall'],
+  ['home', 'Home'], ['delivery', 'Free Delivery'], ['specials', '360° Specials'], ['builder', 'Build Your Plate'], ['menu', 'Menu Wall'],
   ['why', 'Why Us'], ['gallery', 'Gallery'], ['reviews', 'Reviews'], ['visit', 'Visit Us'],
 ] as const
 

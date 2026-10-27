@@ -74,7 +74,7 @@ export default function PlateBuilder() {
     }
     if (isPieces) {
       const o = pieceOptions.find(p => p.id === sel.variant)!
-      const cheeseTxt = sel.cat === 'twister' && sel.cheese ? ' + Liquid Cheese' : ''
+      const cheeseTxt = sel.cat === 'twister' && sel.cheese ? ' + Liquid Cheese Add-On' : ''
       const name = `${o.label} — ${size.label}${cheeseTxt}`
       const base = dishById(o.id)
       return { dish: { id: `b-${o.id}-${sel.size}${sel.cheese ? '-cheese' : ''}`, name, category: 'Build Your Plate', veg: true, price: size.price, spice: base?.spice ?? 2, desc: o.desc ?? '', img: o.img }, unit: size.price, name, img: o.img }
@@ -139,11 +139,14 @@ export default function PlateBuilder() {
                 ))}
               </div>
               {sel.cat === 'twister' && (
+                <div className="mt-5 flex flex-wrap items-center gap-4">
+                <img src={`${BASE}img/cheese-nobg.webp`} alt="Twister par liquid cheese add-on — aisa dikhega" width="640" height="640" loading="lazy" className={`w-20 h-20 sm:w-24 sm:h-24 rounded-[20px] object-cover img-frame border transition-all ${sel.cheese ? 'ring-2 ring-[#FF8A00] border-transparent' : 'line opacity-80'}`} />
                 <button onClick={() => set({ cheese: !sel.cheese })} aria-pressed={sel.cheese}
                   className={`mt-5 w-full sm:w-auto flex items-center gap-3 rounded-full border px-5 py-3 font-heading font-bold text-sm transition-all active:scale-[0.98] ${sel.cheese ? 'grad-bg text-white border-transparent shadow-lg' : 'line surface'}`}>
-                  <Droplets size={17} /> Liquid Cheese Add-on {sel.cheese ? '— ON hai' : '— dono twisters par dalta hai'}
+                  <Droplets size={17} /> Liquid Cheese Add-On (price shop par confirm karein) {sel.cheese ? '— ON hai' : '— Plain aur Kurkure, dono twisters par'}
                   <span className={`w-11 h-6 rounded-full p-0.5 flex transition-colors ${sel.cheese ? 'bg-white/30 justify-end' : 'surface2 justify-start'}`}><span className={`w-5 h-5 rounded-full ${sel.cheese ? 'bg-white' : 'bg-current opacity-40'}`} /></span>
                 </button>
+                </div>
               )}
             </StepShell>
           )}

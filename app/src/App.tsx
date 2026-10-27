@@ -116,6 +116,7 @@ function Shell() {
       </div>
       <main>
         <Hero />
+        <DeliveryScooter />
         <Stats />
         <div className="relative rotate-[1.2deg] -mx-4 surface border-y line py-2.5 overflow-hidden z-10 shadow-lg" aria-hidden>
           <Marquee items="BUILD YOUR PLATE • 360° MOMOS • STREET KA ASLI SWAD • " outline speed={38} className="text-[clamp(1.6rem,4.5vw,3rem)] opacity-70" />
@@ -123,7 +124,6 @@ function Shell() {
         <Showcase360 />
         <PlateBuilder />
         <MenuWall />
-        <DeliveryScooter />
         <WhyUs />
         <ProcessStrip />
         <Gallery />

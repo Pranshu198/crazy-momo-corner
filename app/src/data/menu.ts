@@ -30,8 +30,7 @@ export const MENU: Dish[] = [
   d({id:'gravy-cheese-corn',name:'Cheese & Corn Gravy Momos',category:'Gravy Momos',veg:true,price:100,fullPrice:170,spice:2,desc:'Creamy gravy + cheesy filling = crazy combo.',tags:['must-try'],img:'img/gravy.jpg',signature:true,color:'#e8641c'}),
   // SIDES & CHINESE (poster prices)
   d({id:'twister',name:'Potato Twister',category:'Sides & Chinese',veg:true,price:40,spice:2,desc:'Spiral potato on stick — 1 Pc ₹40, 2 Pcs ₹70. Shop ki shaan!',tags:['bestseller'],img:'img/twister-nobg.webp'}),
-  d({id:'twister-cheese',name:'Liquid Cheese Potato Twister',category:'Sides & Chinese',veg:true,price:'ADD_PRICE',spice:2,desc:'Plain ya Kurkure twister — dono par garam liquid cheese ki baarish, upar se halka masala.',tags:['chef-special','new'],img:'img/cheese-nobg.webp',signature:true,color:'#ffb400'}),
-  d({id:'twister-kurkure',name:'Kurkure Potato Twister',category:'Sides & Chinese',veg:true,price:50,spice:2,desc:'Extra crunchy Kurkure style twister, upar se masala — 1 Pc ₹50, 2 Pcs ₹90.',img:'img/ktwister.webp'}),
+  d({id:'twister-kurkure',name:'Kurkure Potato Twister',category:'Sides & Chinese',veg:true,price:50,spice:2,desc:'Extra crunchy Kurkure style twister, upar se masala — 1 Pc ₹50, 2 Pcs ₹90.',img:'img/ktwister.webp',signature:true,color:'#d97c1e'}),
   d({id:'springroll-noodles',name:'Noodles Spring Roll',category:'Sides & Chinese',veg:true,price:40,spice:1,desc:'Noodles bhara crispy roll — 1 Pc ₹40, 2 Pcs ₹70.',img:'img/springroll.webp'}),
   d({id:'springroll-kurkure',name:'Kurkure Spring Roll',category:'Sides & Chinese',veg:true,price:50,spice:2,desc:'Extra crunchy Kurkure style roll, upar se masala — 1 Pc ₹50, 2 Pcs ₹90.',tags:['must-try'],img:'img/kspringroll.webp',signature:true,color:'#d97c1e'}),
   d({id:'fries-salted',name:'Salted Fries',category:'Sides & Chinese',veg:true,price:40,fullPrice:70,spice:0,desc:'Classic golden fries, halka namak.',img:'img/fries.webp'}),

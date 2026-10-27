@@ -8,7 +8,7 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-14 grid sm:grid-cols-2 lg:grid-cols-4 gap-10">
         <div>
           <div className="flex items-center gap-2.5">
-            <span className="w-10 h-10 rounded-2xl grad-bg grid place-items-center font-display text-white text-sm">CMC</span>
+            <span className="w-10 h-10 rounded-2xl overflow-hidden bg-black ring-1 ring-black/20 shrink-0 shadow-lg"><img src={`${import.meta.env.BASE_URL}img/logo-mascot.webp`} alt="Crazy Momo Corner logo — crazy momo mascot" className="w-full h-full object-cover" /></span>
             <span className="font-display uppercase text-xl">Crazy <span className="grad-text">Momo</span> Corner</span>
           </div>
           <p className="mut text-sm mt-3 leading-relaxed">{SITE.tagline}. 100% Pure Veg momos, twisters, noodles aur bohot kuch.</p>

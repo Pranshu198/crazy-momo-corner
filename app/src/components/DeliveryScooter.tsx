@@ -79,16 +79,16 @@ export default function DeliveryScooter() {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({
-        scrollTrigger: { trigger: secRef.current, start: 'top 85%', end: 'bottom 35%', scrub: 0.6 },
+        scrollTrigger: { trigger: secRef.current, start: 'top 92%', end: 'bottom 68%', scrub: 0.3 },
       })
       tl.fromTo(scooterRef.current,
         { x: () => -(scooterRef.current?.offsetWidth ?? 260) - 30 },
         { x: () => (secRef.current?.offsetWidth ?? 360) + 30, ease: 'none', duration: 1 }, 0)
       tl.to('.scooter-wheel', { rotation: 1080, ease: 'none', duration: 1 }, 0)
       tl.to(scooterRef.current, { keyframes: [{ y: -9 }, { y: 0 }, { y: -9 }, { y: 0 }, { y: -6 }, { y: 0 }], ease: 'none', duration: 1 }, 0)
-      tl.fromTo('.dlv-word',
-        { y: -110, opacity: 0, rotate: () => gsap.utils.random(-14, 14) },
-        { y: 0, opacity: 1, rotate: 0, ease: 'bounce.out', duration: 0.32, stagger: 0.075 }, 0.04)
+      tl.fromTo('.dlv-letter',
+        { y: -90, opacity: 0, rotate: () => gsap.utils.random(-16, 16) },
+        { y: 0, opacity: 1, rotate: 0, ease: 'bounce.out', duration: 0.16, stagger: 0.02 }, 0)
       gsap.to('.puff', { scale: 1.5, opacity: 0.08, transformOrigin: 'center', duration: 0.7, repeat: -1, yoyo: true, stagger: 0.18, ease: 'sine.inOut' })
     }, secRef)
     return () => ctx.revert()
@@ -100,7 +100,11 @@ export default function DeliveryScooter() {
         <div className="font-heading text-xs tracking-[0.3em] mut" data-reveal>FREE DELIVERY — SCROLL KARO, SCOOTY AAYEGI</div>
         <h2 className="font-display uppercase leading-[1.04] mt-5 text-[clamp(1.85rem,7.2vw,4.4rem)] text-3d" aria-label="Free home delivery upto 1 KM on orders above 200 rupees">
           {WORDS.map((w, i) => (
-            <span key={i} className={`dlv-word inline-block will-change-transform mx-1 sm:mx-1.5 my-1 ${w.cls}`} aria-hidden>{w.t}</span>
+            <span key={i} className={`inline-block whitespace-nowrap mx-1 sm:mx-1.5 my-1 ${w.cls}`} aria-hidden>
+              {w.t.split('').map((ch, j) => (
+                <span key={j} className="dlv-letter inline-block will-change-transform">{ch === ' ' ? '\u00A0' : ch}</span>
+              ))}
+            </span>
           ))}
         </h2>
         <p className="font-accent text-2xl sm:text-3xl text-[#FF8A00] mt-3">scooty nikli hai — garam momos raste me hain!</p>

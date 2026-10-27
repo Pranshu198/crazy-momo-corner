@@ -24,7 +24,7 @@ function sceneConfig(dish: Dish): SceneCfg {
     case 'fried-paneer': return { mode: 'momos', tex: 'fried', steam: 55, accent: '#FF8A00', plate: 1, items: ringItems('gyoza', 'fried', 1.02, 0.94) }
     case 'kurkure-paneer': return { mode: 'momos', tex: 'kurkure', steam: 22, accent: '#FF8A00', plate: 1, items: ringItems('gyoza', 'kurkure', 1.02, 0.94) }
     case 'gravy-cheese-corn': return { mode: 'momos', tex: 'gravy', steam: 165, accent: '#e8641c', plate: 1.05, sauce: true, items: ringItems('gyoza', 'gravy', 1.0, 0.9) }
-    case 'twister-cheese': return { mode: 'twister', tex: 'cheese', steam: 42, accent: '#ffb400', plate: 0.92 }
+    case 'twister-kurkure': return { mode: 'twister', tex: 'kurkure', steam: 26, accent: '#d97c1e', plate: 0.92 }
     case 'springroll-kurkure': return { mode: 'rolls', tex: 'kurkure', steam: 26, accent: '#d8541c', plate: 1 }
     default: {
       const tex: TexKind = dish.category === 'Kurkure Momos' ? 'kurkure' : dish.category === 'Gravy Momos' ? 'gravy' : dish.category === 'Fried Momos' ? 'fried' : 'dough'
@@ -77,17 +77,15 @@ function ModelItems({ items }: { items: Placed[] }) {
   return <>{groups.map((g, i) => <group key={i} position={[items[i].pos[0], 0.4, items[i].pos[2]]}><primitive object={g} /></group>)}</>
 }
 
-/* ================= Spiral Potato Twister (helix) + liquid cheese ================= */
+/* ================= Spiral Kurkure Potato Twister (helix, crunchy kurkure coat) ================= */
 class Helix extends THREE.Curve<THREE.Vector3> {
   h: number; r: number; turns: number; phase: number
   constructor(h: number, r: number, turns: number, phase = 0) { super(); this.h = h; this.r = r; this.turns = turns; this.phase = phase }
   getPoint(t: number, target = new THREE.Vector3()) { const a = 2 * Math.PI * this.turns * t + this.phase; return target.set(Math.cos(a) * this.r, (t - 0.5) * this.h, Math.sin(a) * this.r) }
 }
 function TwisterGroup() {
-  const golden = useMemo(() => makeFoodTexture('fried'), [])
-  const cheeseTex = useMemo(() => makeFoodTexture('cheese'), [])
-  const potato = useMemo(() => new THREE.TubeGeometry(new Helix(1.9, 0.3, 8), 260, 0.088, 10, false), [])
-  const cheese = useMemo(() => new THREE.TubeGeometry(new Helix(1.94, 0.315, 8, 0.55), 260, 0.042, 8, false), [])
+  const golden = useMemo(() => makeFoodTexture('kurkure'), [])
+  const potato = useMemo(() => new THREE.TubeGeometry(new Helix(1.9, 0.3, 8), 260, 0.095, 10, false), [])
   return (
     <group position={[0, 0.42, 0]} rotation={[0.12, 0, 0.1]}>
       <mesh position={[0, 0.05, 0]}>{/* skewer */}
@@ -95,10 +93,7 @@ function TwisterGroup() {
         <meshStandardMaterial color="#b98a4e" roughness={0.8} />
       </mesh>
       <mesh geometry={potato} position={[0, 0.1, 0]} castShadow>
-        <meshStandardMaterial map={golden.map} bumpMap={golden.bump} bumpScale={golden.bumpScale} roughnessMap={golden.roughMap} roughness={golden.roughness} envMapIntensity={golden.envMapIntensity} color="#ffc266" />
-      </mesh>
-      <mesh geometry={cheese} position={[0, 0.16, 0]}>
-        <meshStandardMaterial map={cheeseTex.map} bumpMap={cheeseTex.bump} bumpScale={cheeseTex.bumpScale} roughnessMap={cheeseTex.roughMap} roughness={cheeseTex.roughness} envMapIntensity={cheeseTex.envMapIntensity} emissive={cheeseTex.emissive} emissiveIntensity={cheeseTex.emissiveIntensity} />
+        <meshStandardMaterial map={golden.map} bumpMap={golden.bump} bumpScale={golden.bumpScale} roughnessMap={golden.roughMap} roughness={golden.roughness} envMapIntensity={golden.envMapIntensity} color="#e8930c" />
       </mesh>
     </group>
   )

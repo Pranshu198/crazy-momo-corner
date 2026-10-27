@@ -7,7 +7,8 @@ export default function VisitUs() {
         <div className="font-heading text-xs tracking-[0.3em] mut">13 — VISIT US</div>
         <h2 className="font-display uppercase text-[clamp(2.2rem,6vw,4.2rem)] leading-none mt-2 text-3d">Shop Par <span className="font-accent normal-case text-script-3d text-[1.15em]">aao na</span></h2>
         <div className="grid lg:grid-cols-5 gap-6 mt-10">
-          <div className="lg:col-span-2 surface border line rounded-[26px] p-6 sm:p-8 flex flex-col gap-5">
+          <div className="lg:col-span-2 surface border line rounded-[26px] p-6 sm:p-8 flex flex-col gap-5 relative overflow-hidden">
+            <img src={`${import.meta.env.BASE_URL}img/logo-badge.webp`} alt="Crazy Momo Corner official badge" width="150" height="150" loading="lazy" className="absolute -top-3 -right-3 w-[86px] h-[86px] rounded-full object-cover rotate-12 ring-2 ring-[#FF8A00]/70 shadow-xl opacity-95 pointer-events-none" />
             <div className="flex gap-3.5">
               <span className="w-11 h-11 shrink-0 grid place-items-center rounded-2xl grad-bg text-white"><MapPin size={20} /></span>
               <div><div className="font-heading font-bold">Address</div><p className="mut text-sm mt-1 leading-relaxed">{SITE.address}</p></div>

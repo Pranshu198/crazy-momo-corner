@@ -4,7 +4,7 @@ import { ChevronLeft, ChevronRight, X } from 'lucide-react'
 
 const PHOTOS = [
   { src: 'img/twister-nobg.webp', w: 1280, h: 1920, cap: 'Potato Twister — masala girta hua', span: 'col-span-2 row-span-2' },
-  { src: 'img/cheese-nobg.webp', w: 1920, h: 1280, cap: 'Liquid Cheese Twister — cheese ki baarish', span: '' },
+  { src: 'img/ktwister.webp', w: 1920, h: 1280, cap: 'Kurkure Potato Twister — extra crunchy spiral', span: '' },
   { src: 'img/kurkure.jpg', w: 1600, h: 1600, cap: 'Kurkure Momos — crunch ka king', span: '' },
   { src: 'img/steam.jpg', w: 1920, h: 1280, cap: 'Steam Momos — steamer fresh', span: 'md:row-span-2' },
   { src: 'img/kspringroll.webp', w: 1920, h: 1280, cap: 'Kurkure Spring Roll — extra crunchy signature', span: '' },

@@ -5,7 +5,7 @@ import { SITE } from '../data/site'
 import { useApp } from '../context/AppContext'
 import ThemeToggle from './ThemeToggle'
 
-const LINKS = [['Home', '#home'], ['360° Specials', '#specials'], ['Build Your Plate', '#builder'], ['Menu', '#menu'], ['Why Us', '#why'], ['Gallery', '#gallery'], ['Reviews', '#reviews'], ['Visit Us', '#visit']] as const
+const LINKS = [['Home', '#home'], ['Free Delivery', '#delivery'], ['360° Specials', '#specials'], ['Build Your Plate', '#builder'], ['Menu', '#menu'], ['Why Us', '#why'], ['Gallery', '#gallery'], ['Reviews', '#reviews'], ['Visit Us', '#visit']] as const
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
@@ -25,7 +25,7 @@ export default function Navbar() {
       <header className={`fixed top-0 inset-x-0 z-[70] glass border-b line transition-all ${scrolled ? 'py-2 shadow-lg' : 'py-3.5'}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center gap-3">
           <button onClick={() => go('#home')} className="flex items-center gap-2.5 text-left" aria-label="Crazy Momo Corner — home">
-            <span className="w-10 h-10 rounded-2xl grad-bg grid place-items-center font-display text-white text-sm shadow-lg shrink-0">CMC</span>
+            <span className="w-10 h-10 rounded-2xl overflow-hidden bg-black ring-1 ring-black/20 shrink-0 shadow-lg"><img src={`${import.meta.env.BASE_URL}img/logo-mascot.webp`} alt="Crazy Momo Corner logo — crazy momo mascot" className="w-full h-full object-cover" /></span>
             <span className="leading-none">
               <span className="block font-display uppercase tracking-wide text-lg sm:text-xl">Crazy <span className="grad-text">Momo</span> Corner</span>
               <span className="block text-[10px] tracking-[0.28em] mut font-heading mt-0.5">PURE VEG • UTTAM NAGAR</span>
